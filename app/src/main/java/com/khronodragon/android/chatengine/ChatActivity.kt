@@ -2,16 +2,16 @@ package com.khronodragon.android.chatengine
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.chat_view.*
 
 class ChatActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.chat_view)
 
         // Example of a call to a native method
-        sample_text.text = stringFromJNI()
+        Log.i("ce-jni", stringFromJNI())
     }
 
     /**
