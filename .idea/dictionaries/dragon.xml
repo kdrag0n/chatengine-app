@@ -1,10 +1,12 @@
 <component name="ProjectDictionaryState">
   <dictionary name="dragon">
     <words>
+      <w>chatauth</w>
       <w>chatbox</w>
       <w>chatengine</w>
       <w>khronodragon</w>
       <w>reyclerview</w>
+      <w>webauth</w>
     </words>
   </dictionary>
 </component>
