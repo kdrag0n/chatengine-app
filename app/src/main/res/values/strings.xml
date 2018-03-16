@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ChatEngine</string>
-    <string name="send">SEND</string>
+    <string name="send">Send</string>
     <string name="message">Message</string>
     <string name="pre_greeting">Hey there!</string>
     <string name="name_bot">Bot</string>

@@ -35,7 +35,7 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        TimeUtils.dateFormat = DateFormat.getDateFormat(applicationContext)
+        TimeUtils.dateFormat = DateFormat.getTimeFormat(applicationContext)
         ImageUtils.resources = resources
 
         setContentView(R.layout.chat_view)

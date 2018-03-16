@@ -8,58 +8,54 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messageRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-    </android.support.v7.widget.RecyclerView>
-
-    <!-- todo: fix background color android:background="?android:textColorSecondary" -->
-    <View
         android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginBottom="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:layout_constraintBottom_toTopOf="@+id/chatboxLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:id="@+id/chatboxLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:minHeight="48dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <EditText
             android:id="@+id/chatboxText"
-            android:hint="@string/message"
-            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="text"
-            android:imeOptions="actionSend" />
+            android:background="@android:color/transparent"
+            android:hint="@string/message"
+            android:inputType="textAutoCorrect"
+            android:imeOptions="actionSend"
+            android:maxLines="1" />
 
-        <Button
+        <ImageButton
             android:id="@+id/chatboxSendButton"
-            android:text="@string/send"
-            android:textSize="14sp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
             android:layout_width="64dp"
             android:layout_height="48dp"
-            android:gravity="center"
             android:layout_gravity="bottom"
-            android:focusable="true" />
+            android:background="?attr/selectableItemBackground"
+            android:src="@android:drawable/ic_menu_send"
+            android:contentDescription="@string/send"
+            android:tooltipText="@string/send"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            tools:targetApi="o" />
 
     </LinearLayout>
 

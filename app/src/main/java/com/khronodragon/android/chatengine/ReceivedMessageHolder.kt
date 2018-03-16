@@ -17,6 +17,6 @@ class ReceivedMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
         messageText.text = message.text
         timeText.text = message.createdAt.formatAsTime()
 
-        profileImage.displayRoundImage("https://chatengine.xyz/img/avatar.jpg") // TODO: drawable
+        profileImage.displayRoundImage("https://chatengine.xyz/static/img/avatar.jpg")
     }
 }
