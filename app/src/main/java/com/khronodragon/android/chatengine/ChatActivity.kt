@@ -26,7 +26,7 @@ internal const val tag = "CEApp"
 
 class ChatActivity : AppCompatActivity() {
     private val messageList = mutableListOf<Message>()
-    private val messageAdapter = MessageListAdapter(messageList)
+    private lateinit var messageAdapter: MessageListAdapter
     private val httpClient = OkHttpClient.Builder()
             .build()
     private val klaxon = Klaxon()
@@ -40,6 +40,7 @@ class ChatActivity : AppCompatActivity() {
 
         setContentView(R.layout.chat_view)
 
+        messageAdapter = MessageListAdapter(applicationContext, messageList)
         messageRecycler.layoutManager = LinearLayoutManager(this)
         messageRecycler.adapter = messageAdapter
 
@@ -122,7 +123,11 @@ class ChatActivity : AppCompatActivity() {
 
     private fun MutableList<Message>.new(sender: MessageSender, message: String, time: Date = Date()) {
         add(Message(sender, message, time))
-        runOnUiThread({ messageAdapter.notifyItemInserted(size - 1) })
+
+        runOnUiThread({
+            messageAdapter.notifyItemInserted(size - 1)
+            messageRecycler.scrollToPosition(size - 1)
+        })
     }
 
     companion object {
