@@ -9,9 +9,11 @@ import com.khronodragon.android.utils.formatAsTime
 class SentMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
     private val timeText: TextView = itemView.findViewById(R.id.text_message_time)
+    lateinit var message: Message
 
     fun bind(message: Message) {
         messageText.text = message.text
         timeText.text = message.createdAt.formatAsTime()
+        this.message = message
     }
 }

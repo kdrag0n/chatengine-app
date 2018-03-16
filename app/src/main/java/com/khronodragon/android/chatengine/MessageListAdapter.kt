@@ -38,7 +38,9 @@ class MessageListAdapter(private val context: Context, private val messages: Lis
             is SentMessageHolder -> holder.bind(message)
         }
 
-        animate(holder.itemView, holder, position)
+        if (!message.hasAnimated) {
+            animate(holder.itemView, holder, position)
+        }
     }
 
     private fun animate(view: View, holder: RecyclerView.ViewHolder, position: Int) {
@@ -48,8 +50,14 @@ class MessageListAdapter(private val context: Context, private val messages: Lis
                 is SentMessageHolder -> android.R.anim.fade_in
                 else -> error("Invalid ViewHolder")
             })
+
             view.startAnimation(animation)
             lastPosition = position
+
+            when (holder) {
+                is ReceivedMessageHolder -> holder.message.hasAnimated = true
+                is SentMessageHolder -> holder.message.hasAnimated = true
+            }
         }
     }
 }

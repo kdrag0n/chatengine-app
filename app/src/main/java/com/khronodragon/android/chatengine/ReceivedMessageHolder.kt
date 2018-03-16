@@ -12,10 +12,12 @@ class ReceivedMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
     private val timeText: TextView = itemView.findViewById(R.id.text_message_time)
     private val profileImage: ImageView = itemView.findViewById(R.id.image_message_profile)
+    lateinit var message: Message
 
     fun bind(message: Message) {
         messageText.text = message.text
         timeText.text = message.createdAt.formatAsTime()
+        this.message = message
 
         profileImage.displayRoundImage("https://chatengine.xyz/static/img/avatar.jpg")
     }

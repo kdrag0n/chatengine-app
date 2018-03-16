@@ -10,13 +10,9 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import com.beust.klaxon.Klaxon
-import com.khronodragon.android.chatengine.models.APIRequest
-import com.khronodragon.android.chatengine.models.APIResponse
-import com.khronodragon.android.chatengine.models.Message
-import com.khronodragon.android.chatengine.models.MessageSender
+import com.khronodragon.android.chatengine.models.*
 import com.khronodragon.android.utils.ImageUtils
 import com.khronodragon.android.utils.TimeUtils
-import com.khronodragon.android.utils.times
 import kotlinx.android.synthetic.main.chat_view.*
 import okhttp3.*
 import java.io.IOException
@@ -30,7 +26,7 @@ class ChatActivity : AppCompatActivity() {
     private val httpClient = OkHttpClient.Builder()
             .build()
     private val klaxon = Klaxon()
-    private val sessionID = genSessionID()
+    private var sessionID = genSessionID()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,6 +124,22 @@ class ChatActivity : AppCompatActivity() {
             messageAdapter.notifyItemInserted(size - 1)
             messageRecycler.scrollToPosition(size - 1)
         })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        outState!!.putString("session", sessionID)
+        outState.putSerializable("messages", MessageList(messageList))
+    }
+
+    override fun onRestoreInstanceState(savedState: Bundle?) {
+        super.onRestoreInstanceState(savedState)
+
+        sessionID = savedState!!.getString("session")
+
+        val serializedList = savedState.getSerializable("messages") as MessageList
+        messageList.addAll(serializedList.messages)
     }
 
     companion object {
