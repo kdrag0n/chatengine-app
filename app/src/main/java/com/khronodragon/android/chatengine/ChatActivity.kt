@@ -50,7 +50,7 @@ class ChatActivity : AppCompatActivity() {
         chatboxSendButton.setOnClickListener {
             if (chatboxText.text.isBlank() || chatboxText.text.length > 100) return@setOnClickListener
 
-            val message = chatboxText.text.toString()
+            val message = chatboxText.text.toString().trim()
             messageList.new(MessageSender.USER, message)
             sendMessage(message)
             chatboxText.text.clear()
@@ -72,6 +72,8 @@ class ChatActivity : AppCompatActivity() {
 
             return@setOnEditorActionListener false
         }
+
+        chatboxText.requestFocus()
 
         if (resources.getBoolean(R.bool.isPhone)) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
@@ -96,21 +98,43 @@ class ChatActivity : AppCompatActivity() {
                     override fun onFailure(call: Call?, e: IOException?) {
                         // TODO: warning icon
                         Log.e(tag, "Failed to send message", e)
-                        messageList.new(MessageSender.BOT, "Failed to send message. Please check your internet connection.")
+                        messageList.new(MessageSender.INTERNAL, getString(R.string.error_internet))
                     }
+
 
                     override fun onResponse(call: Call?, httpResponse: Response?) {
                         if (httpResponse?.isSuccessful != true) {
                             val errorMessage = "${httpResponse?.code() ?: -1} ${httpResponse?.message() ?: "Unknown"}: ${httpResponse?.body()?.string() ?: "No response body"}"
-                            Log.e(tag, "Unsuccessful status code from API: $errorMessage")
-                            messageList.new(MessageSender.BOT, "An error occurred getting a reply.")
+
+                            if (httpResponse?.code() != 429) {
+                                Log.e(tag, "Unsuccessful status code from API: $errorMessage")
+                            }
+
+                            val message = when (httpResponse?.code() ?: -1) {
+                                302 -> R.string.outdated
+                                307 -> R.string.outdated
+                                400 -> R.string.outdated
+                                401 -> R.string.outdated_corrupt
+                                404 -> R.string.outdated
+                                405 -> R.string.outdated
+                                410 -> R.string.service_gone
+                                413 -> R.string.too_long
+                                429 -> R.string.too_fast
+                                500 -> R.string.server_error
+                                501 -> R.string.no_mod
+                                502 -> R.string.server_down
+                                503 -> R.string.server_down
+                                else -> R.string.error
+                            }
+
+                            messageList.new(MessageSender.INTERNAL, getString(message))
                             return
                         }
 
                         val response = klaxon.parse<APIResponse>(httpResponse.body()?.byteStream() ?: "{}".byteInputStream())
                         if (response?.success != true) {
                             Log.e(tag, "Unsuccessful response from API: ${response?.let {klaxon.toJsonString(it)} ?: "Invalid data"}")
-                            messageList.new(MessageSender.BOT, "Error getting reply: ${response?.error ?: "unknown"}")
+                            messageList.new(MessageSender.BOT, "${getString(R.string.error)}: ${response?.error ?: "unknown"}")
 
                             return
                         }
@@ -161,6 +185,7 @@ class ChatActivity : AppCompatActivity() {
 
         val serializedList = savedState.getSerializable("messages") as MessageList
         messageList.addAll(serializedList.messages)
+        messageRecycler.scrollToPosition(messageList.size - 1)
     }
 
     companion object {

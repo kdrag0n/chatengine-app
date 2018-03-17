@@ -17,7 +17,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginBottom="8dp" />
 
     <LinearLayout
         android:id="@+id/chatboxLayout"
@@ -49,9 +50,9 @@
             android:layout_width="64dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom"
-            android:background="?attr/selectableItemBackground"
             android:src="@android:drawable/ic_menu_send"
             android:contentDescription="@string/send"
+            android:background="@color/transparent"
             android:tooltipText="@string/send"
             android:clickable="true"
             android:focusable="true"

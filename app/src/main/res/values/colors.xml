@@ -6,4 +6,6 @@
 
     <color name="message_received">#00897B</color>
     <color name="message_sent">#FF6F00</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

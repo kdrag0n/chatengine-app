@@ -25,7 +25,7 @@ class SentMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val clip = ClipData.newPlainText("Message Text", messageText.text)
 
             clipboard.primaryClip = clip
-            Toast.makeText(itemView.context, "Text copied!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(itemView.context, "Text copied", Toast.LENGTH_SHORT).show()
             return@setOnLongClickListener true
         }
     }

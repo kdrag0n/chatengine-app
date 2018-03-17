@@ -26,7 +26,10 @@ class MessageListAdapter(private val context: Context, private val messages: Lis
             MessageSender.USER.ordinal ->
                 SentMessageHolder(inflater.inflate(R.layout.message_sent, parent, false))
 
-            else -> throw IllegalArgumentException("Invalid message sender")
+            MessageSender.INTERNAL.ordinal ->
+                InternalMessageHolder(inflater.inflate(R.layout.message_internal, parent, false))
+
+            else -> error("Invalid message sender")
         }
     }
 
@@ -36,6 +39,7 @@ class MessageListAdapter(private val context: Context, private val messages: Lis
         when (holder) {
             is ReceivedMessageHolder -> holder.bind(message)
             is SentMessageHolder -> holder.bind(message)
+            is InternalMessageHolder -> holder.bind(message)
         }
 
         if (!message.hasAnimated) {
@@ -48,6 +52,7 @@ class MessageListAdapter(private val context: Context, private val messages: Lis
             val animation = AnimationUtils.loadAnimation(context, when (holder) {
                 is ReceivedMessageHolder -> android.R.anim.slide_in_left
                 is SentMessageHolder -> android.R.anim.fade_in
+                is InternalMessageHolder -> android.R.anim.slide_in_left
                 else -> error("Invalid ViewHolder")
             })
 
@@ -57,6 +62,7 @@ class MessageListAdapter(private val context: Context, private val messages: Lis
             when (holder) {
                 is ReceivedMessageHolder -> holder.message.hasAnimated = true
                 is SentMessageHolder -> holder.message.hasAnimated = true
+                is InternalMessageHolder -> holder.message.hasAnimated = true
             }
         }
     }

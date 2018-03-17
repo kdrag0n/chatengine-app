@@ -46,8 +46,7 @@ static const char* getKey() {
 
     char base64suffix = 92;
     char twoEight = 28;
-    base64suffix = base64suffix + twoEight; // 'x'
-    base64.append(&base64suffix);
+    base64 += base64suffix + twoEight; // 'x'
 
     std::string final = type + prefix + b64decode(base64);
     final.append(suffix);
