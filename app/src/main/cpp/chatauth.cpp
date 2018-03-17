@@ -45,7 +45,8 @@ static const char* getKey() {
     std::string suffix = "edd";
 
     char base64suffix = 92;
-    base64suffix = (char) (((int) base64suffix) + 28); // 'x'
+    char twoEight = 28;
+    base64suffix = base64suffix + twoEight; // 'x'
     base64.append(&base64suffix);
 
     std::string final = type + prefix + b64decode(base64);

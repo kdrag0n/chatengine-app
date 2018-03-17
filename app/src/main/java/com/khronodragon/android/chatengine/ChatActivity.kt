@@ -11,6 +11,7 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import com.beust.klaxon.Klaxon
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.khronodragon.android.chatengine.models.*
 import com.khronodragon.android.utils.ImageUtils
