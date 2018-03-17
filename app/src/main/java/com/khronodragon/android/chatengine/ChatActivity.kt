@@ -1,5 +1,8 @@
 package com.khronodragon.android.chatengine
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AppCompatDelegate
@@ -9,11 +12,14 @@ import android.text.TextWatcher
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import com.beust.klaxon.Klaxon
 import com.khronodragon.android.chatengine.models.*
 import com.khronodragon.android.utils.ImageUtils
 import com.khronodragon.android.utils.TimeUtils
 import kotlinx.android.synthetic.main.chat_view.*
+import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
+import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
 import okhttp3.*
 import java.io.IOException
 import java.util.*
@@ -41,14 +47,14 @@ class ChatActivity : AppCompatActivity() {
         messageRecycler.adapter = messageAdapter
 
         chatboxSendButton.isEnabled = false
-        chatboxSendButton.setOnClickListener({
+        chatboxSendButton.setOnClickListener {
             if (chatboxText.text.isBlank()) return@setOnClickListener
 
             val message = chatboxText.text.toString()
             messageList.new(MessageSender.USER, message)
             sendMessage(message)
             chatboxText.text.clear()
-        })
+        }
 
         chatboxText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -58,14 +64,14 @@ class ChatActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        chatboxText.setOnEditorActionListener({ _, action, _ ->
+        chatboxText.setOnEditorActionListener { _, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEND) {
                 chatboxSendButton.performClick()
                 return@setOnEditorActionListener true
             }
 
             return@setOnEditorActionListener false
-        })
+        }
     }
 
     private fun sendMessage(msg: String) {

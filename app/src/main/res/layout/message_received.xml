@@ -25,7 +25,8 @@
         android:textColor="#ffffff"
         android:layout_marginTop="4dp"
         app:layout_constraintLeft_toRightOf="@+id/image_message_profile"
-        android:layout_marginStart="8dp" />
+        android:layout_marginStart="8dp"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/text_message_time"
