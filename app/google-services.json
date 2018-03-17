@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "233436260049",
+    "firebase_url": "https://chatdroid-b8e6c.firebaseio.com",
+    "project_id": "chatdroid-b8e6c",
+    "storage_bucket": "chatdroid-b8e6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233436260049:android:0292199f4677fd5c",
+        "android_client_info": {
+          "package_name": "com.khronodragon.android.chatengine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233436260049-t77vur3bkrnpk981nqjcnosm45pcntje.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.khronodragon.android.chatengine",
+            "certificate_hash": "cdec884d6aeabfb2a4f7e5bbc394f72e4f4b683d"
+          }
+        },
+        {
+          "client_id": "233436260049-8kn2v34rl2ebcjvu2si9eq8ahfbqldq6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp0fGulEWp5WjYRsQbLY0dlkcqo9Muqz8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233436260049-8kn2v34rl2ebcjvu2si9eq8ahfbqldq6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
