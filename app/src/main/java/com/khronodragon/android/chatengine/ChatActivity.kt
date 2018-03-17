@@ -1,5 +1,6 @@
 package com.khronodragon.android.chatengine
 
+import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AppCompatDelegate
@@ -46,7 +47,7 @@ class ChatActivity : AppCompatActivity() {
 
         chatboxSendButton.isEnabled = false
         chatboxSendButton.setOnClickListener {
-            if (chatboxText.text.isBlank()) return@setOnClickListener
+            if (chatboxText.text.isBlank() || chatboxText.text.length > 100) return@setOnClickListener
 
             val message = chatboxText.text.toString()
             messageList.new(MessageSender.USER, message)
@@ -57,7 +58,7 @@ class ChatActivity : AppCompatActivity() {
         chatboxText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                chatboxSendButton.isEnabled = s!!.isNotEmpty()
+                chatboxSendButton.isEnabled = s!!.isNotEmpty() && s.length <= 100
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -69,6 +70,10 @@ class ChatActivity : AppCompatActivity() {
             }
 
             return@setOnEditorActionListener false
+        }
+
+        if (resources.getBoolean(R.bool.isPhone)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
         }
 
         try {

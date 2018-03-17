@@ -41,7 +41,8 @@
             android:hint="@string/message"
             android:inputType="textAutoCorrect"
             android:imeOptions="actionSend|flagNoExtractUi"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:maxLength="100" />
 
         <ImageButton
             android:id="@+id/chatboxSendButton"
