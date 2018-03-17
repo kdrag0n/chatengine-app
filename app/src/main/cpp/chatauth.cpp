@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include "base64.h"
-#include <syslog.h>
 #include <string.h>
 #include <stdlib.h>
 
