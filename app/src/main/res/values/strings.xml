@@ -16,4 +16,5 @@
     <string name="server_error">Server error</string>
     <string name="too_long">Message too long</string>
     <string name="too_fast">Slow down</string>
+    <string name="ml_placeholder">Feeling like an empty bottle?\nTry sending a few messages.</string>
 </resources>

@@ -12,7 +12,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import com.beust.klaxon.Klaxon
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.khronodragon.android.chatengine.models.*
 import com.khronodragon.android.utils.ImageUtils
 import com.khronodragon.android.utils.TimeUtils
@@ -31,7 +30,6 @@ class ChatActivity : AppCompatActivity() {
     private val httpClient = OkHttpClient.Builder()
             .build()
     private val klaxon = Klaxon()
-    private lateinit var analytics: FirebaseAnalytics
     private var sessionID = genSessionID()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +40,7 @@ class ChatActivity : AppCompatActivity() {
 
         setContentView(R.layout.chat_view)
 
-        messageAdapter = MessageListAdapter(applicationContext, messageList)
+        messageAdapter = MessageListAdapter(applicationContext, messageList, placeholderLayout)
         messageRecycler.layoutManager = LinearLayoutManager(this)
         messageRecycler.adapter = messageAdapter
 
@@ -87,11 +85,6 @@ class ChatActivity : AppCompatActivity() {
         if (resources.getBoolean(R.bool.isPhone)) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
         }
-
-        try {
-            analytics = FirebaseAnalytics.getInstance(this)
-            analytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
-        } catch (e: Exception) {}
     }
 
     private fun sendMessage(msg: String) {
@@ -150,12 +143,6 @@ class ChatActivity : AppCompatActivity() {
                         messageList.new(MessageSender.BOT, response.response)
                     }
                 })
-
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "send_message")
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Send Message")
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
-        analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     private fun genSessionID(): String {
