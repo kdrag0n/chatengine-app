@@ -147,7 +147,7 @@ class ChatActivity : AppCompatActivity() {
 
                             return
                         }
-                        // TODO: markdown
+
                         messageList.new(MessageSender.BOT, response.response)
                     }
                 })
