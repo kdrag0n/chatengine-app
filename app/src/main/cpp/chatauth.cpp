@@ -6,18 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-char APK_SIGNATURE_PRODUCTION[] = "";
-char BASE64_LICENSE_KEY[] = "";
 const char* STR_AUTHORIZATION = "Authorization";
 const char* STR_REFERER = "Referer";
-
-jboolean ENABLE_APP_BLACKLIST_CHECK = JNI_FALSE;
-jboolean ENABLE_INTERNET_CHECK = JNI_FALSE;
-jboolean REQUIRE_INSTALL_FROM_PLAY_STORE = JNI_FALSE;
-
-static void debug(const std::string &message) {
-    syslog(LOG_DEBUG, "%s", message.c_str());
-}
 
 static const std::string b64decode(const std::string &base64) {
     std::string output;
