@@ -15,13 +15,13 @@ class Base64 {
     unsigned char a3[3];
     unsigned char a4[4];
 
-    out->resize(EncodedLength(in));
+    out->resize((unsigned long) EncodedLength(in));
 
-    int input_len = in.size();
+    int input_len = (int) in.size();
     std::string::const_iterator input = in.begin();
 
     while (input_len--) {
-      a3[i++] = *(input++);
+      a3[i++] = (unsigned char) *(input++);
       if (i == 3) {
         a3_to_a4(a4, a3);
 
@@ -58,12 +58,12 @@ class Base64 {
     unsigned char a3[3];
     unsigned char a4[4];
 
-    size_t encoded_length = EncodedLength(input_length);
+    size_t encoded_length = (size_t) EncodedLength(input_length);
 
     if (out_length < encoded_length) return false;
 
     while (input_length--) {
-      a3[i++] = *input++;
+      a3[i++] = (unsigned char) *input++;
       if (i == 3) {
         a3_to_a4(a4, a3);
 
@@ -100,17 +100,17 @@ class Base64 {
     unsigned char a3[3];
     unsigned char a4[4];
 
-    int input_len = in.size();
+    int input_len = (int) in.size();
     std::string::const_iterator input = in.begin();
 
-    out->resize(DecodedLength(in));
+    out->resize((unsigned long) DecodedLength(in));
 
     while (input_len--) {
       if (*input == '=') {
         break;
       }
 
-      a4[i++] = *(input++);
+      a4[i++] = (unsigned char) *(input++);
       if (i == 4) {
         for (i = 0; i <4; i++) {
           a4[i] = b64_lookup(a4[i]);
@@ -151,7 +151,7 @@ class Base64 {
     unsigned char a3[3];
     unsigned char a4[4];
 
-    size_t decoded_length = DecodedLength(input, input_length);
+    size_t decoded_length = (size_t) DecodedLength(input, input_length);
 
     if (out_length < decoded_length) return false;
 
@@ -160,7 +160,7 @@ class Base64 {
         break;
       }
 
-      a4[i++] = *(input++);
+      a4[i++] = (unsigned char) *(input++);
       if (i == 4) {
         for (i = 0; i <4; i++) {
           a4[i] = b64_lookup(a4[i]);
@@ -201,12 +201,12 @@ class Base64 {
     const char *in_end = in + in_length;
     while (*--in_end == '=') ++numEq;
 
-    return ((6 * in_length) / 8) - numEq;
+    return (int) (((6 * in_length) / 8) - numEq);
   }
 
   static int DecodedLength(const std::string &in) {
     int numEq = 0;
-    int n = in.size();
+    int n = (int) in.size();
 
     for (std::string::const_reverse_iterator it = in.rbegin(); *it == '='; ++it) {
       ++numEq;
@@ -216,7 +216,7 @@ class Base64 {
   }
 
   inline static int EncodedLength(size_t length) {
-    return (length + 2 - ((length + 2) % 3)) / 3 * 4;
+    return (int) ((length + 2 - ((length + 2) % 3)) / 3 * 4);
   }
 
   inline static int EncodedLength(const std::string &in) {
@@ -229,22 +229,22 @@ class Base64 {
 
  private:
   static inline void a3_to_a4(unsigned char * a4, unsigned char * a3) {
-    a4[0] = (a3[0] & 0xfc) >> 2;
-    a4[1] = ((a3[0] & 0x03) << 4) + ((a3[1] & 0xf0) >> 4);
-    a4[2] = ((a3[1] & 0x0f) << 2) + ((a3[2] & 0xc0) >> 6);
-    a4[3] = (a3[2] & 0x3f);
+    a4[0] = (unsigned char) ((a3[0] & 0xfc) >> 2);
+    a4[1] = (unsigned char) (((a3[0] & 0x03) << 4) + ((a3[1] & 0xf0) >> 4));
+    a4[2] = (unsigned char) (((a3[1] & 0x0f) << 2) + ((a3[2] & 0xc0) >> 6));
+    a4[3] = (unsigned char) (a3[2] & 0x3f);
   }
 
   static inline void a4_to_a3(unsigned char * a3, unsigned char * a4) {
-    a3[0] = (a4[0] << 2) + ((a4[1] & 0x30) >> 4);
-    a3[1] = ((a4[1] & 0xf) << 4) + ((a4[2] & 0x3c) >> 2);
-    a3[2] = ((a4[2] & 0x3) << 6) + a4[3];
+    a3[0] = (unsigned char) ((a4[0] << 2) + ((a4[1] & 0x30) >> 4));
+    a3[1] = (unsigned char) (((a4[1] & 0xf) << 4) + ((a4[2] & 0x3c) >> 2));
+    a3[2] = (unsigned char) (((a4[2] & 0x3) << 6) + a4[3]);
   }
 
   static inline unsigned char b64_lookup(unsigned char c) {
     if(c >='A' && c <='Z') return c - 'A';
-    if(c >='a' && c <='z') return c - 71;
-    if(c >='0' && c <='9') return c + 4;
+    if(c >='a' && c <='z') return (unsigned char) (c - 71);
+    if(c >='0' && c <='9') return (unsigned char) (c + 4);
     if(c == '+') return 62;
     if(c == '/') return 63;
     return 255;
