@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
 import android.util.Log
+import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import com.beust.klaxon.Klaxon
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -70,6 +71,15 @@ class ChatActivity : AppCompatActivity() {
             }
 
             return@setOnEditorActionListener false
+        }
+
+        chatboxText.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                chatboxSendButton.performClick()
+                return@setOnKeyListener true
+            }
+
+            return@setOnKeyListener false
         }
 
         chatboxText.requestFocus()

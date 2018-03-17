@@ -18,7 +18,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        android:layout_marginBottom="8dp" />
+        android:paddingBottom="8dp"
+        android:clipToPadding="false" />
 
     <LinearLayout
         android:id="@+id/chatboxLayout"
