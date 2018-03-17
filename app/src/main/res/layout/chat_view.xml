@@ -40,7 +40,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/message"
             android:inputType="textAutoCorrect"
-            android:imeOptions="actionSend"
+            android:imeOptions="actionSend|flagNoExtractUi"
             android:maxLines="1" />
 
         <ImageButton
