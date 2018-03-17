@@ -105,7 +105,6 @@ class ChatActivity : AppCompatActivity() {
         httpClient.newCall(request)
                 .enqueue(object : Callback {
                     override fun onFailure(call: Call?, e: IOException?) {
-                        // TODO: warning icon
                         Log.e(tag, "Failed to send message", e)
                         messageList.new(MessageSender.INTERNAL, getString(R.string.error_internet))
                     }
