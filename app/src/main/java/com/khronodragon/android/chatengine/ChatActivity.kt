@@ -193,7 +193,7 @@ class ChatActivity : AppCompatActivity(), RewardedVideoAdListener {
         add(Message(sender, message, time))
 
         runOnUiThread({
-            messageAdapter.notifyItemInserted(size - 1)
+            messageAdapter.notifyDataSetChanged()
             messageRecycler.scrollToPosition(size - 1)
         })
     }
