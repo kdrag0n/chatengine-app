@@ -15,6 +15,7 @@ import com.beust.klaxon.Klaxon
 import com.khronodragon.android.chatengine.models.*
 import com.khronodragon.android.utils.ImageUtils
 import com.khronodragon.android.utils.TimeUtils
+import com.khronodragon.android.utils.asyncExec
 import com.khronodragon.android.utils.random
 import kotlinx.android.synthetic.main.chat_view.*
 import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
@@ -94,6 +95,17 @@ class ChatActivity : AppCompatActivity() {
 
         if (savedInstanceState?.isEmpty != false) {
             messageList.new(MessageSender.BOT, greetings.random())
+        }
+
+        asyncExec {
+            httpClient.newCall(Request.Builder()
+                    .url("https://chatengine.xyz/api/ask")
+                    .post(RequestBody.create(jsonType, "{}"))
+                    .build())
+                    .enqueue(object : Callback {
+                        override fun onFailure(call: Call?, e: IOException?) {}
+                        override fun onResponse(call: Call?, response: Response?) {}
+                    })
         }
     }
 
