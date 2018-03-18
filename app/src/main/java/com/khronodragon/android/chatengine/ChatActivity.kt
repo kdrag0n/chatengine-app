@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMess
 import okhttp3.*
 import java.io.IOException
 import java.util.*
+import kotlin.concurrent.thread
 
 internal const val tag = "CEApp"
 
@@ -40,7 +41,7 @@ class ChatActivity : AppCompatActivity() {
 
         setContentView(R.layout.chat_view)
 
-        messageAdapter = MessageListAdapter(applicationContext, messageList, placeholderLayout)
+        messageAdapter = MessageListAdapter(applicationContext, messageList)
         messageRecycler.layoutManager = LinearLayoutManager(this)
         messageRecycler.adapter = messageAdapter
 
@@ -48,10 +49,13 @@ class ChatActivity : AppCompatActivity() {
         chatboxSendButton.setOnClickListener {
             if (chatboxText.text.isBlank() || chatboxText.text.length > 100) return@setOnClickListener
 
-            val message = chatboxText.text.toString().trim()
-            messageList.new(MessageSender.USER, message)
-            sendMessage(message)
-            chatboxText.text.clear()
+            thread {
+                val message = chatboxText.text.toString().trim()
+                messageList.new(MessageSender.USER, message)
+                sendMessage(message)
+
+                runOnUiThread({chatboxText.text.clear()})
+            }
         }
 
         chatboxText.addTextChangedListener(object : TextWatcher {
@@ -85,6 +89,8 @@ class ChatActivity : AppCompatActivity() {
         if (resources.getBoolean(R.bool.isPhone)) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
         }
+
+        sendMessage("Hi")
     }
 
     private fun sendMessage(msg: String) {

@@ -9,10 +9,8 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import com.khronodragon.android.chatengine.models.MessageSender
 
-class MessageListAdapter(private val context: Context, private val messages: List<Message>,
-                         private val placeholder: View) :
+class MessageListAdapter(private val context: Context, private val messages: List<Message>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private lateinit var recyclerView: RecyclerView
     private var lastPosition: Int = -1
 
     override fun getItemCount() = messages.size
@@ -47,15 +45,6 @@ class MessageListAdapter(private val context: Context, private val messages: Lis
         if (!message.hasAnimated) {
             animate(holder.itemView, holder, position)
         }
-
-        recyclerView.visibility = View.VISIBLE
-        placeholder.visibility = View.GONE
-    }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-
-        this.recyclerView = recyclerView
     }
 
     private fun animate(view: View, holder: RecyclerView.ViewHolder, position: Int) {
