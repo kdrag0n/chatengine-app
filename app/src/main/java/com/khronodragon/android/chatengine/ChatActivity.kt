@@ -11,7 +11,13 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import com.beust.klaxon.Klaxon
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.reward.RewardItem
+import com.google.android.gms.ads.reward.RewardedVideoAd
+import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import com.khronodragon.android.chatengine.models.*
 import com.khronodragon.android.utils.ImageUtils
 import com.khronodragon.android.utils.TimeUtils
@@ -23,18 +29,18 @@ import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMess
 import okhttp3.*
 import java.io.IOException
 import java.util.*
-import java.util.concurrent.ThreadLocalRandom
 import kotlin.concurrent.thread
 
 internal const val tag = "CEApp"
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity(), RewardedVideoAdListener {
     private val messageList = mutableListOf<Message>()
     private lateinit var messageAdapter: MessageListAdapter
     private val httpClient = OkHttpClient.Builder()
             .build()
     private val klaxon = Klaxon()
     private var sessionID = genSessionID()
+    private lateinit var videoAd: RewardedVideoAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +113,10 @@ class ChatActivity : AppCompatActivity() {
                         override fun onResponse(call: Call?, response: Response?) {}
                     })
         }
+
+        MobileAds.initialize(this, "ca-app-pub-9177446456735791~6980584126")
+        videoAd = MobileAds.getRewardedVideoAdInstance(this)
+        videoAd.rewardedVideoAdListener = this
     }
 
     private fun sendMessage(msg: String) {
@@ -204,6 +214,44 @@ class ChatActivity : AppCompatActivity() {
         messageList.addAll(serializedList.messages)
         messageRecycler.scrollToPosition(messageList.size - 1)
     }
+
+    private fun loadVideoAd() {
+        videoAd.loadAd("ca-app-pub-3940256099942544/5224354917", AdRequest.Builder().build())
+    }
+
+    override fun onRewardedVideoAdLoaded() {
+        if (videoAd.isLoaded) {
+            videoAd.show()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        videoAd.pause(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        videoAd.resume(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        videoAd.destroy(this)
+    }
+
+    override fun onRewardedVideoAdFailedToLoad(p0: Int) {
+        Toast.makeText(this, "Ad failed to load", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onRewarded(p0: RewardItem?) {
+        Toast.makeText(this, "Thanks for watching an ad!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onRewardedVideoAdClosed() {}
+    override fun onRewardedVideoAdLeftApplication() {}
+    override fun onRewardedVideoAdOpened() {}
+    override fun onRewardedVideoStarted() {}
 
     companion object {
         private const val sessionPrefix = "andyOfcA1_"
