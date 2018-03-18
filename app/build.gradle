@@ -52,4 +52,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
 
+configurations {
+    all*.exclude group: 'com.google.firebase', module: 'firebase-analytics'
+}
+
 apply plugin: 'com.google.gms.google-services'

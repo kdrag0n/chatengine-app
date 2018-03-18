@@ -15,12 +15,14 @@ import com.beust.klaxon.Klaxon
 import com.khronodragon.android.chatengine.models.*
 import com.khronodragon.android.utils.ImageUtils
 import com.khronodragon.android.utils.TimeUtils
+import com.khronodragon.android.utils.random
 import kotlinx.android.synthetic.main.chat_view.*
 import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
 import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
 import okhttp3.*
 import java.io.IOException
 import java.util.*
+import java.util.concurrent.ThreadLocalRandom
 import kotlin.concurrent.thread
 
 internal const val tag = "CEApp"
@@ -49,12 +51,12 @@ class ChatActivity : AppCompatActivity() {
         chatboxSendButton.setOnClickListener {
             if (chatboxText.text.isBlank() || chatboxText.text.length > 100) return@setOnClickListener
 
+            val message = chatboxText.text.toString().trim()
+            chatboxText.text.clear()
+
             thread {
-                val message = chatboxText.text.toString().trim()
                 messageList.new(MessageSender.USER, message)
                 sendMessage(message)
-
-                runOnUiThread({chatboxText.text.clear()})
             }
         }
 
@@ -90,7 +92,9 @@ class ChatActivity : AppCompatActivity() {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
         }
 
-        sendMessage("Hi")
+        if (savedInstanceState?.isEmpty != false) {
+            messageList.new(MessageSender.BOT, greetings.random())
+        }
     }
 
     private fun sendMessage(msg: String) {
@@ -190,8 +194,18 @@ class ChatActivity : AppCompatActivity() {
     }
 
     companion object {
-        private val jsonType = MediaType.parse("application/json; charset=utf-8")
         private const val sessionPrefix = "andyOfcA1_"
+        private val jsonType = MediaType.parse("application/json; charset=utf-8")
+        private val greetings = listOf(
+                "Hey!",
+                "Hey there!",
+                "Heya!",
+                "I'm kind of busy right now, but hi.",
+                "Greetings, partner.",
+                "Isn't it a beautiful day?",
+                "Hello!",
+                "Hello, friend.",
+                "Hello, human.")
 
         init {
             System.loadLibrary("chatauth")
