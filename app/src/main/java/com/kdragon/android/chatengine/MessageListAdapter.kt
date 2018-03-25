@@ -11,7 +11,7 @@ import com.kdragon.android.chatengine.models.MessageSender
 
 class MessageListAdapter(private val context: Context, private val messages: List<Message>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var lastPosition: Int = -1
+    private var lastPosition = -1
 
     override fun getItemCount() = messages.size
     override fun getItemViewType(position: Int) = messages[position].sender.ordinal
