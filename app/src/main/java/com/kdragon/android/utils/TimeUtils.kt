@@ -1,4 +1,4 @@
-package com.khronodragon.android.utils
+package com.kdragon.android.utils
 
 import java.text.DateFormat
 import java.util.*

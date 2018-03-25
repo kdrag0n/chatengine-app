@@ -1,4 +1,4 @@
-package com.khronodragon.android.chatengine
+package com.kdragon.android.chatengine
 
 import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
@@ -18,11 +18,11 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardItem
 import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
-import com.khronodragon.android.chatengine.models.*
-import com.khronodragon.android.utils.ImageUtils
-import com.khronodragon.android.utils.TimeUtils
-import com.khronodragon.android.utils.asyncExec
-import com.khronodragon.android.utils.random
+import com.kdragon.android.chatengine.models.*
+import com.kdragon.android.utils.ImageUtils
+import com.kdragon.android.utils.TimeUtils
+import com.kdragon.android.utils.asyncExec
+import com.kdragon.android.utils.random
 import kotlinx.android.synthetic.main.chat_view.*
 import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
 import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText

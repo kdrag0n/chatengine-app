@@ -1,4 +1,4 @@
-package com.khronodragon.android.utils
+package com.kdragon.android.utils
 
 import android.content.res.Resources
 import android.graphics.Bitmap

@@ -1,4 +1,4 @@
-package com.khronodragon.android.chatengine
+package com.kdragon.android.chatengine
 
 import org.junit.Test
 

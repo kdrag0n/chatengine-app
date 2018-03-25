@@ -1,4 +1,4 @@
-package com.khronodragon.android.chatengine.models
+package com.kdragon.android.chatengine.models
 
 import java.io.Serializable
 

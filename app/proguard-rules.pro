@@ -72,4 +72,4 @@
 -keep class kotlin.** { *; }
 
 # App
--keep class com.khronodragon.android.chatengine.models.** { *; }
+-keep class com.kdragon.android.chatengine.models.** { *; }

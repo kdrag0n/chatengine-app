@@ -14,7 +14,7 @@ android {
     }
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.khronodragon.android.chatengine"
+        applicationId "com.kdragon.android.chatengine"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 2

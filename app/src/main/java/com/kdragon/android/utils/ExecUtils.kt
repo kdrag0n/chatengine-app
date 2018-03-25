@@ -1,4 +1,4 @@
-package com.khronodragon.android.utils
+package com.kdragon.android.utils
 
 import android.annotation.SuppressLint
 import android.os.AsyncTask

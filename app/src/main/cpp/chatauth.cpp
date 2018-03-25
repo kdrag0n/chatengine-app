@@ -46,7 +46,7 @@ static const char* getKey() {
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_khronodragon_android_chatengine_ChatActivity_authenticate(
+Java_com_kdragon_android_chatengine_ChatActivity_authenticate(
         JNIEnv *env, jobject, jobject request) {
     jclass clazz = env->GetObjectClass(request);
 
