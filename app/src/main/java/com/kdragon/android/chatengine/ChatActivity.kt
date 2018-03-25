@@ -11,13 +11,7 @@ import android.text.format.DateFormat
 import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import com.beust.klaxon.Klaxon
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.reward.RewardItem
-import com.google.android.gms.ads.reward.RewardedVideoAd
-import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import com.kdragon.android.chatengine.models.*
 import com.kdragon.android.utils.ImageUtils
 import com.kdragon.android.utils.TimeUtils
@@ -33,14 +27,14 @@ import kotlin.concurrent.thread
 
 internal const val tag = "CEApp"
 
-class ChatActivity : AppCompatActivity(), RewardedVideoAdListener {
+class ChatActivity : AppCompatActivity()/*, RewardedVideoAdListener*/ {
     private val messageList = mutableListOf<Message>()
     private lateinit var messageAdapter: MessageListAdapter
     private val httpClient = OkHttpClient.Builder()
             .build()
     private val klaxon = Klaxon()
     private var sessionID = genSessionID()
-    private lateinit var videoAd: RewardedVideoAd
+    //private lateinit var videoAd: RewardedVideoAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,9 +108,9 @@ class ChatActivity : AppCompatActivity(), RewardedVideoAdListener {
                     })
         }
 
-        MobileAds.initialize(this, "ca-app-pub-9177446456735791~6980584126")
-        videoAd = MobileAds.getRewardedVideoAdInstance(this)
-        videoAd.rewardedVideoAdListener = this
+        //MobileAds.initialize(this, "ca-app-pub-9177446456735791~6980584126")
+        //videoAd = MobileAds.getRewardedVideoAdInstance(this)
+        //videoAd.rewardedVideoAdListener = this
     }
 
     private fun sendMessage(msg: String) {
@@ -215,6 +209,7 @@ class ChatActivity : AppCompatActivity(), RewardedVideoAdListener {
         messageRecycler.scrollToPosition(messageList.size - 1)
     }
 
+    /*
     private fun loadVideoAd() {
         videoAd.loadAd("ca-app-pub-3940256099942544/5224354917", AdRequest.Builder().build())
     }
@@ -252,6 +247,7 @@ class ChatActivity : AppCompatActivity(), RewardedVideoAdListener {
     override fun onRewardedVideoAdLeftApplication() {}
     override fun onRewardedVideoAdOpened() {}
     override fun onRewardedVideoStarted() {}
+    */
 
     companion object {
         private const val sessionPrefix = "andyOfcA1_"

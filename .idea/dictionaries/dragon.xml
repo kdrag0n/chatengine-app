@@ -56,6 +56,7 @@
       <w>isystem</w>
       <w>kdragon</w>
       <w>khronodragon</w>
+      <w>lateinit</w>
       <w>latomic</w>
       <w>lgcc</w>
       <w>libatomic</w>
