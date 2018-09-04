@@ -10,7 +10,8 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
-        android:contentDescription="@string/avatar_description" />
+        android:contentDescription="@string/avatar_description"
+        android:src="@drawable/ic_cloud_circle" />
 
     <TextView
         android:id="@+id/text_message_body"

@@ -11,7 +11,6 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import com.beust.klaxon.Klaxon
 import com.kdragon.android.chatengine.models.*
-import com.kdragon.android.utils.ImageUtils
 import com.kdragon.android.utils.asyncExec
 import com.kdragon.android.utils.random
 import kotlinx.android.synthetic.main.chat_view.*
@@ -33,8 +32,6 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        ImageUtils.resources = resources
 
         setContentView(R.layout.chat_view)
 
