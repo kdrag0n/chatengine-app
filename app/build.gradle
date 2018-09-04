@@ -6,7 +6,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.kdragon.android.chatengine"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1030
         versionName "1.3"
