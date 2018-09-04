@@ -209,9 +209,7 @@ class ChatActivity : AppCompatActivity() {
                 "Hey!",
                 "Hey there!",
                 "Heya!",
-                "I'm kind of busy right now, but hi.",
-                "Greetings, partner.",
-                "Isn't it a beautiful day?",
+                "Greetings, partner.", 
                 "Hello!",
                 "Hello, friend.",
                 "Hello, human.")
