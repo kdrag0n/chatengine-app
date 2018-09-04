@@ -8,7 +8,6 @@
 
     <TextView
         android:id="@+id/text_message_time"
-        android:text="@string/placeholder_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -16,7 +15,6 @@
 
     <TextView
         android:id="@+id/text_message_body"
-        android:text="@string/pre_greeting_alt"
         android:background="@drawable/rounded_rect_sent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
