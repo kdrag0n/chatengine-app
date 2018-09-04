@@ -195,10 +195,10 @@ class ChatActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedState: Bundle?) {
         super.onRestoreInstanceState(savedState)
 
-        sessionID = savedState!!.getString("session")
+        sessionID = savedState?.getString("session") ?: genSessionID()
 
-        val serializedList = savedState.getSerializable("messages") as MessageList
-        messageList.addAll(serializedList.messages)
+        val serializedList = savedState?.getSerializable("messages") as MessageList?
+        messageList.addAll(serializedList?.messages ?: listOf())
         messageRecycler.scrollToPosition(messageList.size - 1)
     }
 
