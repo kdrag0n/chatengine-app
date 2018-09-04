@@ -3,13 +3,8 @@
     <string name="send">Send</string>
     <string name="message">Message</string>
     <string name="avatar_description">Profile</string>
-    <string name="pre_greeting_alt">Hello!</string>
     <string name="error">Error getting reply</string>
     <string name="error_internet">Failed to send message. Check your internet connection.</string>
-    <string name="outdated">App is out of date</string>
-    <string name="outdated_corrupt">App is out of date or corrupted</string>
-    <string name="service_gone">Service has been shut down</string>
-    <string name="no_mod">Don\'t modify the app</string>
     <string name="server_down">Server is down</string>
     <string name="server_error">Server error</string>
     <string name="too_long">Message too long</string>

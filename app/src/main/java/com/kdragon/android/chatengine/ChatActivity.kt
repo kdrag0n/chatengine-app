@@ -120,17 +120,9 @@ class ChatActivity : AppCompatActivity() {
                             }
 
                             val message = when (httpResponse?.code() ?: -1) {
-                                302 -> R.string.outdated
-                                307 -> R.string.outdated
-                                400 -> R.string.outdated
-                                401 -> R.string.outdated_corrupt
-                                404 -> R.string.outdated
-                                405 -> R.string.outdated
-                                410 -> R.string.service_gone
                                 413 -> R.string.too_long
                                 429 -> R.string.too_fast
                                 500 -> R.string.server_error
-                                501 -> R.string.no_mod
                                 502 -> R.string.server_down
                                 503 -> R.string.server_down
                                 else -> R.string.error
