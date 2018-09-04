@@ -26,14 +26,13 @@ import kotlin.concurrent.thread
 
 internal const val tag = "CEApp"
 
-class ChatActivity : AppCompatActivity()/*, RewardedVideoAdListener*/ {
+class ChatActivity : AppCompatActivity() {
     private val messageList = mutableListOf<Message>()
     private lateinit var messageAdapter: MessageListAdapter
     private val httpClient = OkHttpClient.Builder()
             .build()
     private val klaxon = Klaxon()
     private var sessionID = genSessionID()
-    //private lateinit var videoAd: RewardedVideoAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,10 +105,6 @@ class ChatActivity : AppCompatActivity()/*, RewardedVideoAdListener*/ {
                         override fun onResponse(call: Call?, response: Response?) {}
                     })
         }
-
-        //MobileAds.initialize(this, "ca-app-pub-9177446456735791~6980584126")
-        //videoAd = MobileAds.getRewardedVideoAdInstance(this)
-        //videoAd.rewardedVideoAdListener = this
     }
 
     private fun sendMessage(msg: String) {
@@ -207,46 +202,6 @@ class ChatActivity : AppCompatActivity()/*, RewardedVideoAdListener*/ {
         messageList.addAll(serializedList.messages)
         messageRecycler.scrollToPosition(messageList.size - 1)
     }
-
-    /*
-    private fun loadVideoAd() {
-        videoAd.loadAd("ca-app-pub-3940256099942544/5224354917", AdRequest.Builder().build())
-    }
-
-    override fun onRewardedVideoAdLoaded() {
-        if (videoAd.isLoaded) {
-            videoAd.show()
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        videoAd.pause(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        videoAd.resume(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        videoAd.destroy(this)
-    }
-
-    override fun onRewardedVideoAdFailedToLoad(p0: Int) {
-        Toast.makeText(this, "Ad failed to load", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onRewarded(p0: RewardItem?) {
-        Toast.makeText(this, "Thanks for watching an ad!", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onRewardedVideoAdClosed() {}
-    override fun onRewardedVideoAdLeftApplication() {}
-    override fun onRewardedVideoAdOpened() {}
-    override fun onRewardedVideoStarted() {}
-    */
 
     companion object {
         private const val sessionPrefix = "andyOfcA1_"
