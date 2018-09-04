@@ -3,7 +3,6 @@ package com.kdragon.android.chatengine
 import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
@@ -265,7 +264,6 @@ class ChatActivity : AppCompatActivity()/*, RewardedVideoAdListener*/ {
 
         init {
             System.loadLibrary("chatauth")
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
     }
 }
