@@ -3,14 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'key'
-            keyPassword 'WApoticHair4'
-            storeFile file('/home/dragon/Documents/android.jks')
-            storePassword 'WDebugPotato9'
-        }
-    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.kdragon.android.chatengine"
@@ -30,7 +22,6 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
             zipAlignEnabled true
         }
     }
