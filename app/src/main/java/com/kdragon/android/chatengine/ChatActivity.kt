@@ -203,7 +203,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val sessionPrefix = "andyOfcA1_"
+        private const val sessionPrefix = "droid_"
         private val jsonType = MediaType.parse("application/json; charset=utf-8")
         private val greetings = listOf(
                 "Hey!",
