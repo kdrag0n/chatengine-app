@@ -54,7 +54,7 @@ class ChatActivity : AppCompatActivity()/*, RewardedVideoAdListener*/ {
             val message = chatboxText.text.toString().trim()
             chatboxText.text.clear()
 
-            thread {
+            asyncExec {
                 messageList.new(MessageSender.USER, message)
                 sendMessage(message)
             }
