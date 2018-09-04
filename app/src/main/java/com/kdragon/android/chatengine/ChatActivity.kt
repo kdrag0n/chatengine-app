@@ -123,8 +123,8 @@ class ChatActivity : AppCompatActivity() {
                                 413 -> R.string.too_long
                                 429 -> R.string.too_fast
                                 500 -> R.string.server_error
-                                502 -> R.string.server_down
-                                503 -> R.string.server_down
+                                502 -> R.string.server_error
+                                503 -> R.string.server_error
                                 else -> R.string.error
                             }
 
