@@ -6,14 +6,12 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.format.DateFormat
 import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import com.beust.klaxon.Klaxon
 import com.kdragon.android.chatengine.models.*
 import com.kdragon.android.utils.ImageUtils
-import com.kdragon.android.utils.TimeUtils
 import com.kdragon.android.utils.asyncExec
 import com.kdragon.android.utils.random
 import kotlinx.android.synthetic.main.chat_view.*
@@ -36,7 +34,6 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        TimeUtils.dateFormat = DateFormat.getTimeFormat(applicationContext)
         ImageUtils.resources = resources
 
         setContentView(R.layout.chat_view)
@@ -181,7 +178,7 @@ class ChatActivity : AppCompatActivity() {
 
         runOnUiThread {
             messageAdapter.notifyDataSetChanged()
-            messageRecycler.scrollToPosition(size - 1)
+            messageRecycler.smoothScrollToPosition(size - 1)
         }
     }
 
@@ -209,7 +206,7 @@ class ChatActivity : AppCompatActivity() {
                 "Hey!",
                 "Hey there!",
                 "Heya!",
-                "Greetings, partner.", 
+                "Greetings, partner.",
                 "Hello!",
                 "Hello, friend.",
                 "Hello, human.")
