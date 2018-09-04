@@ -13,7 +13,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                cppFlags "-std=c++14 -fexceptions"
+                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static"
+                cppFlags "-fexceptions", "-std=c++17", "-O3", "-fno-rtti"
             }
         }
     }

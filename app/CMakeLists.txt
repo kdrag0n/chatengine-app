@@ -5,6 +5,16 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+# Sets some warning/error conditions and which version of C/C++ to use
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -flto -std=c11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flto -Wall -Werror -Wno-error=unused-command-line-argument -std=c++17")
+
+# Fix LTO on release
+string(REPLACE "-Os" "-O3" CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
+string(REPLACE "-Os" "-O3" CMAKE_C_FLAGS ${CMAKE_C_FLAGS})
+string(REPLACE "-Os" "-O3" CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+string(REPLACE "-Os" "-O3" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
