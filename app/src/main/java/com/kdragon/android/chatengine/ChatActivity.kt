@@ -186,10 +186,10 @@ class ChatActivity : AppCompatActivity()/*, RewardedVideoAdListener*/ {
     private fun MutableList<Message>.new(sender: MessageSender, message: String, time: Date = Date()) {
         add(Message(sender, message, time))
 
-        runOnUiThread({
+        runOnUiThread {
             messageAdapter.notifyDataSetChanged()
             messageRecycler.scrollToPosition(size - 1)
-        })
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
