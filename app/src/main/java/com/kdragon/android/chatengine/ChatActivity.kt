@@ -1,8 +1,8 @@
 package com.kdragon.android.chatengine
 
 import android.content.pm.ActivityInfo
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,12 +17,11 @@ import com.kdragon.android.utils.TimeUtils
 import com.kdragon.android.utils.asyncExec
 import com.kdragon.android.utils.random
 import kotlinx.android.synthetic.main.chat_view.*
-import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
-import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
 import okhttp3.*
 import java.io.IOException
 import java.util.*
-import kotlin.concurrent.thread
+import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
+import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
 
 internal const val tag = "CEApp"
 
