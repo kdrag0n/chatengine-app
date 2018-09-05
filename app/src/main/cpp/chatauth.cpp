@@ -9,13 +9,18 @@ const char* STR_AUTHORIZATION = "Authorization";
 const char* STR_REFERER = "Referer";
 const std::string &equals = "=";
 
-static const std::string b64decode(const std::string &base64) {
+inline void xorCrypt(const std::string &key, std::vector<char> data) {
+    for (size_t i = 0; i != data.size(); i++)
+        data[i] ^= key[ i % key.size() ];
+}
+
+inline const std::string b64decode(const std::string &base64) {
     std::string output;
     Base64::Decode(base64, &output);
     return output;
 }
 
-static const char* getReferer() {
+inline const char* getReferer() {
     std::string protocol = "https";
     std::string domain = b64decode("Y2hhdGVuZ2luZS54eXo" + equals);
     std::string path = b64decode("Y2hhdA" + equals + equals);
@@ -28,7 +33,7 @@ static const char* getReferer() {
     return result;
 }
 
-static const char* getKey() {
+inline const char* getKey() {
     std::string base64 = "OTM0ODY2MTUzZDliN2E0Mzg0Mjg2Mzc1MTIyOTg5Y2I3OGMyZWYyOTkyY2RlMGUyODE1OGM3ZWM";
   //std::string base64 = "OTMyODY2MTUzZDliN2E0Mzg0Mjg2Mzc1MTIyOTg5g2I3OGMyZWYyOTkyY2RlMGUyODE1OGM3ZWM";
     std::string type = "W";//^                                    ^
