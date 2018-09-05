@@ -82,17 +82,6 @@ class ChatActivity : AppCompatActivity() {
         if (savedInstanceState?.isEmpty != false) {
             messageList.new(MessageSender.BOT, greetings.random())
         }
-
-        asyncExec {
-            httpClient.newCall(Request.Builder()
-                    .url("https://chatengine.xyz/api/ask")
-                    .post(RequestBody.create(jsonType, "{}"))
-                    .build())
-                    .enqueue(object : Callback {
-                        override fun onFailure(call: Call?, e: IOException?) {}
-                        override fun onResponse(call: Call?, response: Response?) {}
-                    })
-        }
     }
 
     private fun sendMessage(msg: String) {
