@@ -4,8 +4,9 @@
     <string name="message">Message</string>
     <string name="avatar_description">Profile</string>
     <string name="error">Error getting reply</string>
+    <string name="error_response">Error getting reply: invalid data received</string>
     <string name="error_api">Error getting reply: %s</string>
-    <string name="error_internet">Failed to send message. Check your internet connection.</string>
+    <string name="error_internet">Failed to send message</string>
     <string name="server_error">Server error</string>
     <string name="too_long">Message too long</string>
     <string name="too_fast">Slow down</string>

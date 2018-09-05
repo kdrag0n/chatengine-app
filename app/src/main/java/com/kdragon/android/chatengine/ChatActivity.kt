@@ -7,8 +7,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
-import com.beust.klaxon.Klaxon
-import com.kdragon.android.chatengine.models.*
+import com.kdragon.android.chatengine.models.Message
+import com.kdragon.android.chatengine.models.MessageList
+import com.kdragon.android.chatengine.models.MessageSender
 import com.kdragon.android.utils.asyncExec
 import com.kdragon.android.utils.random
 import kotlinx.android.synthetic.main.chat_view.*
@@ -16,6 +17,8 @@ import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+import org.json.JSONException
+import org.json.JSONObject
 import java.util.*
 import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
 import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
@@ -26,7 +29,6 @@ class ChatActivity : AppCompatActivity() {
     private val httpClient by lazy {
         OkHttpClient.Builder().build()
     }
-    private val klaxon by lazy { Klaxon() }
     private var sessionID = genSessionID()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,10 +87,13 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun sendMessage(msg: String) {
-        val apiRequest = APIRequest(query = msg, session = sessionID)
+        val apiRequest = JSONObject()
+        apiRequest.put("query", msg)
+        apiRequest.put("session", sessionID)
+
         val request = Request.Builder()
                 .url("https://chatengine.xyz/api/ask")
-                .post(RequestBody.create(jsonType, klaxon.toJsonString(apiRequest)))
+                .post(RequestBody.create(jsonType, apiRequest.toString()))
                 .auth()
                 .build()
 
@@ -110,14 +115,19 @@ class ChatActivity : AppCompatActivity() {
                 return
             }
 
-            val response = klaxon.parse<APIResponse>(resp.body()?.byteStream() ?: "{}".byteInputStream())
-            if (response?.success != true) {
-                messageList.new(MessageSender.BOT, getString(R.string.error_api, response?.error ?: "unknown"))
+            try {
+                val jsonResp = JSONObject(resp.body()?.string() ?: "{}")
 
-                return
+                if (!jsonResp.getBoolean("success")) {
+                    messageList.new(MessageSender.BOT, getString(R.string.error_api, jsonResp.getString("error")))
+                    return
+                }
+
+                messageList.new(MessageSender.BOT, jsonResp.getString("response"))
+            } catch (e: JSONException) {
+                // invalid response - server error
+                messageList.new(MessageSender.BOT, getString(R.string.error_response))
             }
-
-            messageList.new(MessageSender.BOT, response.response)
         } catch (e: Exception) {
             messageList.new(MessageSender.INTERNAL, getString(R.string.error_internet))
         }
