@@ -47,7 +47,17 @@ inline const char* getKey() {
     // this is XORed
     std::string base64 = b64decode(baseXor64);
 
-    xorCrypt(refPathWithout2Eq + equals + refDomainWithoutEq + STR_AUTHORIZATION + "://", base64);
+    std::string xorKeySuffix = "844";
+    for (size_t i = 0; i != xorKeySuffix.size(); i++) {
+        if (xorKeySuffix[i] == '8')
+            xorKeySuffix[i] += 2;
+        else if (xorKeySuffix[i] == '4')
+            xorKeySuffix[i] -= 5;
+    }
+
+    std::string xorKey = refPathWithout2Eq + equals + refDomainWithoutEq + STR_AUTHORIZATION + xorKeySuffix;
+
+    xorCrypt(xorKey, base64);
 
     /*base64[3] = '0'; // OTM0O...
     //                     ^
