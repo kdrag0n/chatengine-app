@@ -20,8 +20,6 @@ import java.util.*
 import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
 import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
 
-internal const val tag = "CEApp"
-
 class ChatActivity : AppCompatActivity() {
     private val messageList = mutableListOf<Message>()
     private lateinit var messageAdapter: MessageListAdapter
