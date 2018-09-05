@@ -24,9 +24,10 @@ internal const val tag = "CEApp"
 class ChatActivity : AppCompatActivity() {
     private val messageList = mutableListOf<Message>()
     private lateinit var messageAdapter: MessageListAdapter
-    private val httpClient = OkHttpClient.Builder()
-            .build()
-    private val klaxon = Klaxon()
+    private val httpClient by lazy {
+        OkHttpClient.Builder().build()
+    }
+    private val klaxon by lazy { Klaxon() }
     private var sessionID = genSessionID()
 
     override fun onCreate(savedInstanceState: Bundle?) {
