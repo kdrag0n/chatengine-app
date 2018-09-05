@@ -20,7 +20,8 @@
         app:layout_constraintVertical_bias="1.0"
         android:paddingBottom="8dp"
         android:paddingTop="4dp"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 
     <LinearLayout
         android:id="@+id/chatboxLayout"
