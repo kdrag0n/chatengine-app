@@ -108,19 +108,5 @@
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
 
-# Okio
-#-keep class sun.misc.Unsafe { *; }
-#-dontwarn java.nio.file.*
-#-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-#-dontwarn okio.**
-
-# Kotlin reflect
--dontwarn kotlin.reflect.jvm.internal.**
--keep class kotlin.reflect.jvm.internal.** { *; }
-
-# Klaxon
--keep class com.beust.klaxon.** { *; }
--keep class kotlin.** { *; }
-
 # App
 -keep class com.kdragon.android.chatengine.models.** { *; }
