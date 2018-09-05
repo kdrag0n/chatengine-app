@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import com.beust.klaxon.Klaxon
@@ -13,8 +12,10 @@ import com.kdragon.android.chatengine.models.*
 import com.kdragon.android.utils.asyncExec
 import com.kdragon.android.utils.random
 import kotlinx.android.synthetic.main.chat_view.*
-import okhttp3.*
-import java.io.IOException
+import okhttp3.MediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
 import java.util.*
 import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
 import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
@@ -93,46 +94,35 @@ class ChatActivity : AppCompatActivity() {
                 .auth()
                 .build()
 
-        httpClient.newCall(request)
-                .enqueue(object : Callback {
-                    override fun onFailure(call: Call?, e: IOException?) {
-                        Log.e(tag, "Failed to send message", e)
-                        messageList.new(MessageSender.INTERNAL, getString(R.string.error_internet))
-                    }
+        try {
+            val resp = httpClient.newCall(request)
+                    .execute()
 
+            if (!resp.isSuccessful) {
+                val message = when (resp.code()) {
+                    413 -> R.string.too_long
+                    429 -> R.string.too_fast
+                    500 -> R.string.server_error
+                    502 -> R.string.server_error
+                    503 -> R.string.server_error
+                    else -> R.string.error
+                }
 
-                    override fun onResponse(call: Call?, httpResponse: Response?) {
-                        if (httpResponse?.isSuccessful != true) {
-                            val errorMessage = "${httpResponse?.code() ?: -1} ${httpResponse?.message() ?: "Unknown"}: ${httpResponse?.body()?.string() ?: "No response body"}"
+                messageList.new(MessageSender.INTERNAL, getString(message))
+                return
+            }
 
-                            if (httpResponse?.code() != 429) {
-                                Log.e(tag, "Unsuccessful status code from API: $errorMessage")
-                            }
+            val response = klaxon.parse<APIResponse>(resp.body()?.byteStream() ?: "{}".byteInputStream())
+            if (response?.success != true) {
+                messageList.new(MessageSender.BOT, getString(R.string.error_api, response?.error ?: "unknown"))
 
-                            val message = when (httpResponse?.code() ?: -1) {
-                                413 -> R.string.too_long
-                                429 -> R.string.too_fast
-                                500 -> R.string.server_error
-                                502 -> R.string.server_error
-                                503 -> R.string.server_error
-                                else -> R.string.error
-                            }
+                return
+            }
 
-                            messageList.new(MessageSender.INTERNAL, getString(message))
-                            return
-                        }
-
-                        val response = klaxon.parse<APIResponse>(httpResponse.body()?.byteStream() ?: "{}".byteInputStream())
-                        if (response?.success != true) {
-                            Log.e(tag, "Unsuccessful response from API: ${response?.let {klaxon.toJsonString(it)} ?: "Invalid data"}")
-                            messageList.new(MessageSender.BOT, "${getString(R.string.error)}: ${response?.error ?: "unknown"}")
-
-                            return
-                        }
-
-                        messageList.new(MessageSender.BOT, response.response)
-                    }
-                })
+            messageList.new(MessageSender.BOT, response.response)
+        } catch (e: Exception) {
+            messageList.new(MessageSender.INTERNAL, getString(R.string.error_internet))
+        }
     }
 
     private fun genSessionID(): String {
