@@ -6,6 +6,6 @@
 
     <color name="transparent">#00000000</color>
     <color name="background">#24242d</color>
-    <color name="background_contrast">#292933</color>
+    <color name="background_contrast">#2d2d39</color>
     <color name="about_ic_color">#bebec0</color>
 </resources>

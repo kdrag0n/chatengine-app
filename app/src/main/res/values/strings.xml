@@ -21,6 +21,7 @@
     <string name="server_error">Server error</string>
     <string name="too_long">Message too long</string>
     <string name="too_fast">Slow down</string>
+    <string name="history_saved">History saved</string>
 
     <!-- About names -->
     <string name="author_name">Khronodragon</string>
