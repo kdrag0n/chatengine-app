@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:extractNativeLibs="false"
+        android:extractNativeLibs="true"
         tools:targetApi="m">
         <activity android:name="com.kdrag0n.chathive.MainActivity"
             android:launchMode="singleTop">
