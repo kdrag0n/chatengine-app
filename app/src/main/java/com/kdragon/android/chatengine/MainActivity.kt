@@ -15,7 +15,7 @@ import com.kdragon.android.chatengine.models.MessageList
 import com.kdragon.android.chatengine.models.MessageSender
 import com.kdragon.android.utils.asyncExec
 import com.kdragon.android.utils.random
-import kotlinx.android.synthetic.main.chat_view.*
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -26,7 +26,7 @@ import java.util.*
 import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
 import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
 
-class ChatActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     private val messageList = mutableListOf<Message>()
     private lateinit var messageAdapter: MessageListAdapter
     private val httpClient by lazy {
@@ -37,7 +37,7 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.chat_view)
+        setContentView(R.layout.activity_main)
 
         messageAdapter = MessageListAdapter(applicationContext, messageList)
 
