@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kdragon.android.utils
+package com.kdrag0n.utils
 
 import android.content.Context
 import android.content.Intent

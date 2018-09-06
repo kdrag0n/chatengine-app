@@ -1,9 +1,10 @@
-package com.kdragon.android.chatengine
+package com.kdrag0n.chathive
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import com.kdragon.android.chatengine.models.Message
+import com.kdrag0n.chathive.models.Message
+import com.kdragon.android.chatengine.R
 
 class InternalMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val messageText: TextView = itemView.findViewById(R.id.text_message_body)

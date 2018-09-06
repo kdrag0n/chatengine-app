@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.kdragon.android.utils
+package com.kdrag0n.utils
 
 import android.annotation.SuppressLint
 import android.os.AsyncTask

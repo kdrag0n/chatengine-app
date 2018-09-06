@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         android:extractNativeLibs="false"
         tools:targetApi="m">
-        <activity android:name=".MainActivity"
+        <activity android:name="com.kdrag0n.chathive.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,8 +34,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AboutActivity"
-            android:parentActivityName=".MainActivity"
+        <activity android:name="com.kdrag0n.chathive.AboutActivity"
+            android:parentActivityName="com.kdrag0n.chathive.MainActivity"
             android:launchMode="singleTop"
             android:label="@string/about"/>
     </application>

@@ -1,4 +1,4 @@
-package com.kdragon.android.chatengine
+package com.kdrag0n.chathive
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -8,8 +8,9 @@ import android.text.format.DateFormat
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import com.kdragon.android.chatengine.models.Message
-import com.kdragon.android.utils.formatAsTime
+import com.kdrag0n.chathive.models.Message
+import com.kdrag0n.utils.formatAsTime
+import com.kdragon.android.chatengine.R
 
 class SentMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val messageText: TextView = itemView.findViewById(R.id.text_message_body)

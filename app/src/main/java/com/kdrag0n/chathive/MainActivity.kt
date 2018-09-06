@@ -1,4 +1,4 @@
-package com.kdragon.android.chatengine
+package com.kdrag0n.chathive
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,11 +11,12 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
-import com.kdragon.android.chatengine.models.Message
-import com.kdragon.android.chatengine.models.MessageList
-import com.kdragon.android.chatengine.models.MessageSender
-import com.kdragon.android.utils.asyncExec
-import com.kdragon.android.utils.random
+import com.kdrag0n.chathive.models.Message
+import com.kdrag0n.chathive.models.MessageList
+import com.kdrag0n.chathive.models.MessageSender
+import com.kdrag0n.utils.asyncExec
+import com.kdrag0n.utils.random
+import com.kdragon.android.chatengine.R
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.MediaType
 import okhttp3.OkHttpClient

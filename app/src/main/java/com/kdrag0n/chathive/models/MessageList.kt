@@ -1,4 +1,4 @@
-package com.kdragon.android.chatengine.models
+package com.kdrag0n.chathive.models
 
 import java.io.Serializable
 

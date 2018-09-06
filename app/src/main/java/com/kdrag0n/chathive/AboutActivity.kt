@@ -1,4 +1,4 @@
-package com.kdragon.android.chatengine
+package com.kdrag0n.chathive
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import com.kdragon.android.chatengine.BuildConfig
+import com.kdragon.android.chatengine.R
 import kotlinx.android.synthetic.main.activity_about.*
 
 class AboutActivity : AppCompatActivity() {

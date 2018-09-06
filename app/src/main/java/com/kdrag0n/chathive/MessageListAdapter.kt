@@ -1,13 +1,14 @@
-package com.kdragon.android.chatengine
+package com.kdrag0n.chathive
 
 import android.content.Context
-import com.kdragon.android.chatengine.models.Message
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import com.kdragon.android.chatengine.models.MessageSender
+import com.kdrag0n.chathive.models.Message
+import com.kdrag0n.chathive.models.MessageSender
+import com.kdragon.android.chatengine.R
 
 class MessageListAdapter(private val context: Context, private val messages: List<Message>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
