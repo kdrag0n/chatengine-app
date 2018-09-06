@@ -57,7 +57,7 @@
             android:layout_width="64dp"
             android:layout_height="48dp"
             android:layout_gravity="bottom"
-            android:src="@android:drawable/ic_menu_send"
+            android:src="@drawable/ic_send"
             android:contentDescription="@string/send"
             android:background="@color/transparent"
             android:tooltipText="@string/send"
