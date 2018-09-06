@@ -21,7 +21,9 @@
         android:paddingBottom="8dp"
         android:paddingTop="4dp"
         android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        app:stackFromEnd="true"
+        app:reverseLayout="true" />
 
     <LinearLayout
         android:id="@+id/chatboxLayout"
@@ -46,7 +48,9 @@
             android:inputType="textAutoCorrect"
             android:imeOptions="actionSend|flagNoExtractUi"
             android:maxLines="1"
-            android:maxLength="100" />
+            android:maxLength="100"
+            android:focusedByDefault="true"
+            tools:targetApi="o" />
 
         <ImageButton
             android:id="@+id/chatboxSendButton"

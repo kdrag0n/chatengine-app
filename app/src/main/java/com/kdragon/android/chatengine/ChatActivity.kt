@@ -37,8 +37,15 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.chat_view)
 
         messageAdapter = MessageListAdapter(applicationContext, messageList)
+
         messageRecycler.layoutManager = LinearLayoutManager(this)
         messageRecycler.adapter = messageAdapter
+
+        messageRecycler.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+            if (bottom < oldBottom) {
+                messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
+            }
+        }
 
         chatboxSendButton.isEnabled = false
         chatboxSendButton.setOnClickListener {
@@ -150,7 +157,7 @@ class ChatActivity : AppCompatActivity() {
 
         runOnUiThread {
             messageAdapter.notifyDataSetChanged()
-            messageRecycler.smoothScrollToPosition(size - 1)
+            messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
         }
     }
 
@@ -168,7 +175,8 @@ class ChatActivity : AppCompatActivity() {
 
         val serializedList = savedState?.getSerializable("messages") as MessageList?
         messageList.addAll(serializedList?.messages ?: listOf())
-        messageRecycler.scrollToPosition(messageList.size - 1)
+        messageAdapter.notifyDataSetChanged()
+        messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
     }
 
     companion object {
