@@ -6,10 +6,10 @@
 
         <item name="android:windowBackground">@color/background</item>
         <item name="cardStyle">@style/CardTheme</item>
-        <item name="android:popupTheme">@style/MenuTheme</item>
+        <item name="popupTheme">@style/MenuTheme</item>
     </style>
 
-    <style name="MenuTheme" parent="ThemeOverlay.AppCompat">
+    <style name="MenuTheme" parent="Theme.AppCompat">
         <item name="android:colorBackground">@color/background</item>
     </style>
 
