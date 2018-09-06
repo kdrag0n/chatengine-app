@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#F44336</color>
-    <color name="primaryDark">#D32F2F</color>
+    <color name="primary_dark">#D32F2F</color>
     <color name="accent">#FF1744</color>
 
-    <color name="message_received">#00897B</color>
-    <color name="message_sent">#FF6F00</color>
-
     <color name="transparent">#00000000</color>
+    <color name="background">#24242d</color>
+    <color name="background_contrast">#292933</color>
 </resources>
