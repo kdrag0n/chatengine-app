@@ -1,11 +1,14 @@
 package com.kdragon.android.chatengine
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import com.kdragon.android.chatengine.models.Message
 import com.kdragon.android.chatengine.models.MessageList
@@ -91,6 +94,24 @@ class ChatActivity : AppCompatActivity() {
         if (savedInstanceState?.isEmpty != false) {
             messageList.new(MessageSender.BOT, greetings.random())
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.actions, menu ?: return true)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.aboutOpt -> showAboutActivity()
+        }
+
+        return true
+    }
+
+    private fun showAboutActivity() {
+        val intent = Intent(this, AboutActivity::class.java)
+        startActivity(intent)
     }
 
     private fun sendMessage(msg: String) {

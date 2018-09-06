@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme"
         android:extractNativeLibs="false"
         tools:targetApi="m">
-        <activity android:name=".ChatActivity">
+        <activity android:name=".ChatActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,6 +33,11 @@
                     android:pathPrefix="/chat" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".AboutActivity"
+            android:parentActivityName=".ChatActivity"
+            android:launchMode="singleTop"
+            android:label="@string/about"/>
     </application>
 
 </manifest>
