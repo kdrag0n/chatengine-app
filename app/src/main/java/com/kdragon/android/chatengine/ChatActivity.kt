@@ -164,8 +164,8 @@ class ChatActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
 
-        outState!!.putString("session", sessionID)
-        outState.putSerializable("messages", MessageList(messageList))
+        outState?.putString("session", sessionID)
+        outState?.putSerializable("messages", MessageList(messageList))
     }
 
     override fun onRestoreInstanceState(savedState: Bundle?) {
