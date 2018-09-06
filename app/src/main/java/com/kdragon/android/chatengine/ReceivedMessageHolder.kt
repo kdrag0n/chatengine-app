@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.kdragon.android.chatengine.models.Message
 import com.kdragon.android.utils.formatAsTime
-import ru.noties.markwon.Markwon
 
 class ReceivedMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
@@ -18,7 +17,7 @@ class ReceivedMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     lateinit var message: Message
 
     fun bind(message: Message) {
-        Markwon.setMarkdown(messageText, message.text)
+        messageText.text = message.text
         timeText.text = message.createdAt.formatAsTime(DateFormat.getTimeFormat(itemView.context))
         this.message = message
 
