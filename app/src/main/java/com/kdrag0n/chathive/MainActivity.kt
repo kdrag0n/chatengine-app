@@ -11,9 +11,7 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import com.kdrag0n.chathive.models.Message
-import com.kdrag0n.chathive.models.MessageHistoryList
 import com.kdrag0n.chathive.models.MessageList
 import com.kdrag0n.chathive.models.MessageSender
 import com.kdrag0n.utils.asyncExec
@@ -32,7 +30,7 @@ import kotlinx.android.synthetic.main.message_received.text_message_body as rece
 import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
 
 class MainActivity : AppCompatActivity() {
-    private var messageList = mutableListOf<Message>()
+    private lateinit var messageList: MutableList<Message>
     private lateinit var messageAdapter: MessageListAdapter
     private val httpClient by lazy {
         OkHttpClient.Builder().build()
@@ -44,6 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar_main as Toolbar?)
+
+        Paper.init(this)
+        messageList = Paper.book().read("history", mutableListOf())
 
         messageAdapter = MessageListAdapter(applicationContext, messageList)
 
@@ -97,9 +98,7 @@ class MainActivity : AppCompatActivity() {
 
         chatboxText.requestFocus()
 
-        Paper.init(this)
-
-        if (savedInstanceState?.isEmpty != false) {
+        if (messageList.isEmpty()) {
             messageList.new(MessageSender.BOT, greetings.random())
         }
     }
@@ -111,26 +110,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.aboutOpt -> showAboutActivity()
-            R.id.saveOpt -> asyncExec(::saveHistory)
+            R.id.aboutOpt -> startActivity(Intent(this, AboutActivity::class.java))
+            R.id.settingsOpt -> startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         return true
-    }
-
-    private fun showAboutActivity() {
-        val intent = Intent(this, AboutActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun saveHistory() {
-        val list = Paper.book().read("history", MessageHistoryList(mutableListOf()))
-        list.v += messageList.toList()
-        Paper.book().write("history", list)
-
-        runOnUiThread {
-            Toast.makeText(this, R.string.history_saved, Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun sendMessage(msg: String) {
@@ -199,6 +183,9 @@ class MainActivity : AppCompatActivity() {
             messageAdapter.notifyDataSetChanged()
             messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
         }
+
+        // save history
+        Paper.book().write("history", messageList)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

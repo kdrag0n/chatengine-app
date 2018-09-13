@@ -8,8 +8,8 @@
 
     <!-- Actions -->
     <string name="send">Send</string>
-    <string name="save_history">Save history</string>
     <string name="about">About</string>
+    <string name="settings">Settings</string>
 
     <!-- Messages -->
     <string name="message">Message</string>
