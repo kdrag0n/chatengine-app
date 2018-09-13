@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         Paper.init(this)
         messageList = Paper.book().read("history", mutableListOf())
+        messageList[messageList.size - 1].hasAnimated = true // prevent animation of last message
 
         messageAdapter = MessageListAdapter(applicationContext, messageList)
 
