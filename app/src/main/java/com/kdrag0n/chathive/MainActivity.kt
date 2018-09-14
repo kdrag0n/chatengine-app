@@ -51,7 +51,9 @@ class MainActivity : AppCompatActivity() {
 
         if (Paper.book().read("saveHistory")) {
             messageList = Paper.book().read("history", mutableListOf())
-            messageList[messageList.size - 1].hasAnimated = true // prevent animation of last message
+            if (messageList.size > 0) {
+                messageList[messageList.size - 1].hasAnimated = true // prevent animation of last message
+            }
         } else {
             messageList = mutableListOf()
         }
