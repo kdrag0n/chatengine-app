@@ -38,11 +38,6 @@
             android:parentActivityName="com.kdrag0n.chathive.MainActivity"
             android:launchMode="singleTop"
             android:label="@string/about"/>
-
-        <activity android:name="com.kdrag0n.chathive.SettingsActivity"
-            android:parentActivityName="com.kdrag0n.chathive.MainActivity"
-            android:launchMode="singleTop"
-            android:label="@string/settings"/>
     </application>
 
 </manifest>

@@ -45,8 +45,16 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar_main as Toolbar?)
 
         Paper.init(this)
-        messageList = Paper.book().read("history", mutableListOf())
-        messageList[messageList.size - 1].hasAnimated = true // prevent animation of last message
+        if (!Paper.book().contains("saveHistory")) {
+            Paper.book().write("saveHistory", true)
+        }
+
+        if (Paper.book().read("saveHistory")) {
+            messageList = Paper.book().read("history", mutableListOf())
+            messageList[messageList.size - 1].hasAnimated = true // prevent animation of last message
+        } else {
+            messageList = mutableListOf()
+        }
 
         messageAdapter = MessageListAdapter(applicationContext, messageList)
 
@@ -110,6 +118,12 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        super.onPrepareOptionsMenu(menu)
+        menu?.findItem(R.id.historyOpt)?.isChecked = Paper.book().read("saveHistory")
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.clearOpt -> with (AlertDialog.Builder(this, R.style.DialogTheme)) {
@@ -119,14 +133,24 @@ class MainActivity : AppCompatActivity() {
                 setNegativeButton(android.R.string.no) { _, _ -> }
                 setPositiveButton(android.R.string.yes) { _, _ ->
                     messageList.clear()
-                    Paper.book().write("history", messageList)
+                    Paper.book().delete("history")
                     messageList.new(MessageSender.BOT, greetings.random())
                 }
 
                 show()
             }
             R.id.aboutOpt -> startActivity(Intent(this, AboutActivity::class.java))
-            R.id.settingsOpt -> startActivity(Intent(this, SettingsActivity::class.java))
+            R.id.historyOpt -> {
+                item.isChecked = !item.isChecked
+
+                if (item.isChecked) { // turn on
+                    Paper.book().write("saveHistory", true)
+                    Paper.book().write("history", messageList)
+                } else { // turn off
+                    Paper.book().write("saveHistory", false)
+                    Paper.book().delete("history")
+                }
+            }
         }
 
         return true
@@ -200,7 +224,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         // save history
-        Paper.book().write("history", messageList)
+        if (Paper.book().read("saveHistory")) {
+            Paper.book().write("history", messageList)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
