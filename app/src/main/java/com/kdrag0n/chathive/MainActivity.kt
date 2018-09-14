@@ -111,6 +111,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
+            R.id.clearOpt -> {
+                messageList.clear()
+                Paper.book().write("history", messageList)
+            }
             R.id.aboutOpt -> startActivity(Intent(this, AboutActivity::class.java))
             R.id.settingsOpt -> startActivity(Intent(this, SettingsActivity::class.java))
         }

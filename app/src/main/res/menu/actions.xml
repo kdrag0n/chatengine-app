@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/clearOpt"
+        android:title="@string/clear_history"
+        android:icon="@drawable/ic_delete_forever"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/aboutOpt"
         android:title="@string/about"
         app:showAsAction="never" />
