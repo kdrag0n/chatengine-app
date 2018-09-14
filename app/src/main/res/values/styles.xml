@@ -16,4 +16,10 @@
     <style name="CardTheme" parent="CardView.Dark">
         <item name="cardBackgroundColor">@color/background_contrast</item>
     </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/accent</item>
+        <item name="background">@color/background</item>
+        <item name="android:background">@color/background</item>
+    </style>
 </resources>

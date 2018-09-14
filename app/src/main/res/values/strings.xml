@@ -23,6 +23,8 @@
     <string name="too_long">Message too long</string>
     <string name="too_fast">Slow down</string>
     <string name="history_saved">History saved</string>
+    <string name="clear_history_confirm">Do you really want to clear all history?</string>
+    <string name="clear_history_confirm_desc">This is permanent and cannot be reversed.</string>
 
     <!-- About names -->
     <string name="author_name">Khronodragon</string>

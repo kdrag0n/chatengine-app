@@ -2,6 +2,7 @@ package com.kdrag0n.chathive
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
@@ -111,9 +112,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.clearOpt -> {
-                messageList.clear()
-                Paper.book().write("history", messageList)
+            R.id.clearOpt -> with (AlertDialog.Builder(this, R.style.DialogTheme)) {
+                setTitle(R.string.clear_history_confirm)
+                setMessage(R.string.clear_history_confirm_desc)
+
+                setNegativeButton(android.R.string.no) { _, _ -> }
+                setPositiveButton(android.R.string.yes) { _, _ ->
+                    messageList.clear()
+                    Paper.book().write("history", messageList)
+                    messageList.new(MessageSender.BOT, greetings.random())
+                }
+
+                show()
             }
             R.id.aboutOpt -> startActivity(Intent(this, AboutActivity::class.java))
             R.id.settingsOpt -> startActivity(Intent(this, SettingsActivity::class.java))
