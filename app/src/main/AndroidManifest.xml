@@ -15,7 +15,8 @@
         android:extractNativeLibs="true"
         tools:targetApi="m">
         <activity android:name="com.kdrag0n.chathive.MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

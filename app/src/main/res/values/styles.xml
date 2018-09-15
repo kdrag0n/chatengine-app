@@ -9,6 +9,11 @@
         <item name="popupTheme">@style/MenuTheme</item>
     </style>
 
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="colorPrimaryDark">@color/background</item>
+    </style>
+
     <style name="MenuTheme" parent="ThemeOverlay.AppCompat">
         <item name="android:colorBackground">@color/background</item>
     </style>
