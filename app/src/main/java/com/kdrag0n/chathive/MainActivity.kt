@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -35,9 +36,11 @@ import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMess
 
 class MainActivity : AppCompatActivity() {
     private val messageList = mutableListOf<Message>()
+    private val dbWriterLock = java.lang.Object()
     private lateinit var messageAdapter: MessageListAdapter
     private lateinit var db: AppDatabase
     private lateinit var prefs: SharedPreferences
+    private var dbWriterTask: AsyncTask<Unit, Unit, Unit>? = null
     private val httpClient by lazy {
         OkHttpClient.Builder().build()
     }
@@ -123,6 +126,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (prefs.getBoolean("saveHistory", true)) {
+            // start the writer task
+            dbWriterTask = dbWriter()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (dbWriterTask != null && !dbWriterTask!!.isCancelled) {
+            dbWriterTask!!.cancel(true)
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.actions, menu ?: return true)
         return true
@@ -177,7 +195,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun writeDbHistory() {
         asyncExec {
-            db.messageDao().insertMessages(messageList)
+            synchronized(dbWriterLock) {
+                dbWriterLock.notify()
+            }
+        }
+    }
+
+    private fun dbWriter(): AsyncTask<Unit, Unit, Unit> {
+        return asyncExec {
+            var posWritten = messageList.size - 1
+
+            while (true) {
+                synchronized(dbWriterLock) {
+                    dbWriterLock.wait()
+                }
+
+                val end = messageList.size - 1
+                if (end > posWritten) {
+                    db.messageDao().insertMessages(messageList.slice(posWritten..end))
+                    posWritten = end
+                }
+            }
         }
     }
 

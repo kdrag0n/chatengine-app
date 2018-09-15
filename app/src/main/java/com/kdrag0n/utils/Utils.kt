@@ -13,7 +13,7 @@ inline fun<E> List<E>.random(): E {
     return get(random.nextInt(size))
 }
 
-inline fun Date.formatAsTime(fmt: DateFormat) : String {
+inline fun Date.formatAsTime(fmt: DateFormat): String {
     return fmt.format(this) ?: "?"
 }
 
@@ -22,8 +22,10 @@ inline operator fun String.times(num: Int): String {
 }
 
 @SuppressLint("StaticFieldLeak")
-inline fun asyncExec(crossinline func: () -> Unit) {
-    object : AsyncTask<Unit, Unit, Unit>() {
+inline fun asyncExec(crossinline func: () -> Unit): AsyncTask<Unit, Unit, Unit> {
+    val task = object : AsyncTask<Unit, Unit, Unit>() {
         override fun doInBackground(vararg params: Unit?) = func()
-    }.execute()
+    }
+    task.execute()
+    return task
 }
