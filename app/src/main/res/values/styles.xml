@@ -11,9 +11,9 @@
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:windowBackground">@color/background</item>
         <item name="android:navigationBarColor">@color/background</item>
-        <item name="colorPrimaryDark">@color/background</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
     </style>
 
     <style name="MenuTheme" parent="ThemeOverlay.AppCompat">
