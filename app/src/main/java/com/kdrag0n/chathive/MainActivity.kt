@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendMessage(msg: String) {
-        val apiRequest = JSONObject().also { 
+        val apiRequest = JSONObject().also {
             it.put("query", msg)
             it.put("session", sessionID)
         }
