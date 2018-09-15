@@ -136,9 +136,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if (dbWriterTask != null && !dbWriterTask!!.isCancelled) {
-            dbWriterTask!!.cancel(true)
-        }
+        stopWriter()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -173,9 +171,11 @@ class MainActivity : AppCompatActivity() {
 
                 prefs.edit().putBoolean("saveHistory", item.isChecked).apply()
                 if (item.isChecked) { // turn on
+                    dbWriterTask = dbWriter()
                     writeDbHistory()
                 } else { // turn off
                     clearDbHistory()
+                    stopWriter()
                 }
             }
         }
@@ -198,6 +198,12 @@ class MainActivity : AppCompatActivity() {
             synchronized(dbWriterLock) {
                 dbWriterLock.notify()
             }
+        }
+    }
+
+    private fun stopWriter() {
+        if (dbWriterTask != null && !dbWriterTask!!.isCancelled) {
+            dbWriterTask!!.cancel(true)
         }
     }
 
