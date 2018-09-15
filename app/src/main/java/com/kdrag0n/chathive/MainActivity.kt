@@ -1,6 +1,9 @@
 package com.kdrag0n.chathive
 
+import android.arch.persistence.room.Room
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -12,13 +15,13 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
+import com.kdrag0n.chathive.database.AppDatabase
 import com.kdrag0n.chathive.models.Message
 import com.kdrag0n.chathive.models.MessageList
 import com.kdrag0n.chathive.models.MessageSender
 import com.kdrag0n.utils.asyncExec
 import com.kdrag0n.utils.random
 import com.kdragon.android.chatengine.R
-import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -31,8 +34,10 @@ import kotlinx.android.synthetic.main.message_received.text_message_body as rece
 import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var messageList: MutableList<Message>
+    private val messageList = mutableListOf<Message>()
     private lateinit var messageAdapter: MessageListAdapter
+    private lateinit var db: AppDatabase
+    private lateinit var prefs: SharedPreferences
     private val httpClient by lazy {
         OkHttpClient.Builder().build()
     }
@@ -44,19 +49,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar_main as Toolbar?)
 
-        Paper.init(this)
-        if (!Paper.book().contains("saveHistory")) {
-            Paper.book().write("saveHistory", true)
-        }
-
-        if (Paper.book().read("saveHistory")) {
-            messageList = Paper.book().read("history", mutableListOf())
-            if (messageList.size > 0) {
-                messageList[messageList.size - 1].hasAnimated = true // prevent animation of last message
-            }
-        } else {
-            messageList = mutableListOf()
-        }
+        db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "chat").build()
+        prefs = getSharedPreferences("chathive", Context.MODE_PRIVATE)
 
         messageAdapter = MessageListAdapter(applicationContext, messageList)
 
@@ -110,8 +104,22 @@ class MainActivity : AppCompatActivity() {
 
         chatboxText.requestFocus()
 
-        if (messageList.isEmpty()) {
-            messageList.new(MessageSender.BOT, greetings.random())
+        asyncExec {
+            if (prefs.getBoolean("saveHistory", true)) {
+                readDbHistory()
+                if (messageList.size > 0) {
+                    messageList[messageList.size - 1].hasAnimated = true // prevent animation of last message
+                }
+
+                runOnUiThread {
+                    messageAdapter.notifyDataSetChanged()
+                    messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
+                }
+            }
+
+            if (messageList.isEmpty()) {
+                messageList.new(MessageSender.BOT, greetings.random())
+            }
         }
     }
 
@@ -122,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         super.onPrepareOptionsMenu(menu)
-        menu?.findItem(R.id.historyOpt)?.isChecked = Paper.book().read("saveHistory")
+        menu?.findItem(R.id.historyOpt)?.isChecked = prefs.getBoolean("saveHistory", true)
         return true
     }
 
@@ -135,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                 setNegativeButton(android.R.string.no) { _, _ -> }
                 setPositiveButton(android.R.string.yes) { _, _ ->
                     messageList.clear()
-                    Paper.book().delete("history")
+                    clearDbHistory()
                     messageList.new(MessageSender.BOT, greetings.random())
                 }
 
@@ -145,17 +153,32 @@ class MainActivity : AppCompatActivity() {
             R.id.historyOpt -> {
                 item.isChecked = !item.isChecked
 
+                prefs.edit().putBoolean("saveHistory", item.isChecked).apply()
                 if (item.isChecked) { // turn on
-                    Paper.book().write("saveHistory", true)
-                    Paper.book().write("history", messageList)
+                    writeDbHistory()
                 } else { // turn off
-                    Paper.book().write("saveHistory", false)
-                    Paper.book().delete("history")
+                    clearDbHistory()
                 }
             }
         }
 
         return true
+    }
+
+    private fun readDbHistory() {
+        messageList.addAll(db.messageDao().loadAllMessages())
+    }
+
+    private fun clearDbHistory() {
+        asyncExec {
+            db.clearAllTables()
+        }
+    }
+
+    private fun writeDbHistory() {
+        asyncExec {
+            db.messageDao().insertMessages(messageList)
+        }
     }
 
     private fun sendMessage(msg: String) {
@@ -219,7 +242,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun MutableList<Message>.new(sender: MessageSender, message: String, time: Date = Date()) {
-        add(Message(sender, message, time))
+        add(Message(sender = sender, text = message, createdAt = time))
 
         runOnUiThread {
             messageAdapter.notifyDataSetChanged()
@@ -227,8 +250,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // save history
-        if (Paper.book().read("saveHistory")) {
-            Paper.book().write("history", messageList)
+        if (prefs.getBoolean("saveHistory", true)) {
+            writeDbHistory()
         }
     }
 
