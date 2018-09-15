@@ -159,9 +159,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendMessage(msg: String) {
-        val apiRequest = JSONObject()
-        apiRequest.put("query", msg)
-        apiRequest.put("session", sessionID)
+        val apiRequest = JSONObject().also { 
+            it.put("query", msg)
+            it.put("session", sessionID)
+        }
 
         val request = Request.Builder()
                 .url("https://chatengine.xyz/api/ask")
