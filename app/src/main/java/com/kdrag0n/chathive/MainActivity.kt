@@ -53,20 +53,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar_main as Toolbar?)
 
-        db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "chat").build()
-        prefs = getSharedPreferences("chathive", Context.MODE_PRIVATE)
-
-        messageAdapter = MessageListAdapter(applicationContext, messageList)
-
-        messageRecycler.layoutManager = LinearLayoutManager(this)
-        messageRecycler.adapter = messageAdapter
-
-        messageRecycler.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
-            if (bottom < oldBottom) {
-                messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
-            }
-        }
-
         chatboxSendButton.isEnabled = false
         chatboxSendButton.setOnClickListener {
             if (chatboxText.text.isBlank() || chatboxText.text.length > 100) return@setOnClickListener
@@ -109,6 +95,22 @@ class MainActivity : AppCompatActivity() {
         chatboxText.requestFocus()
 
         asyncExec {
+            runOnUiThread {
+                messageAdapter = MessageListAdapter(applicationContext, messageList)
+
+                messageRecycler.layoutManager = LinearLayoutManager(this)
+                messageRecycler.adapter = messageAdapter
+
+                messageRecycler.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+                    if (bottom < oldBottom) {
+                        messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
+                    }
+                }
+            }
+
+            db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "chat").build()
+            prefs = getSharedPreferences("chathive", Context.MODE_PRIVATE)
+
             if (prefs.getBoolean("saveHistory", true)) {
                 readDbHistory()
                 if (messageList.size > 0) {
@@ -124,12 +126,17 @@ class MainActivity : AppCompatActivity() {
             if (messageList.isEmpty()) {
                 messageList.new(MessageSender.BOT, greetings.random())
             }
+
+            if (prefs.getBoolean("saveHistory", true)) {
+                // start the writer task
+                dbWriterTask = dbWriter()
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (prefs.getBoolean("saveHistory", true)) {
+        if (::prefs.isInitialized && prefs.getBoolean("saveHistory", true)) {
             // start the writer task
             dbWriterTask = dbWriter()
         }
