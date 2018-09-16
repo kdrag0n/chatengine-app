@@ -53,6 +53,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar_main as Toolbar?)
 
+        messageAdapter = MessageListAdapter(applicationContext, messageList)
+
+        messageRecycler.layoutManager = LinearLayoutManager(this)
+        messageRecycler.adapter = messageAdapter
+
+        messageRecycler.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+            if (bottom < oldBottom) {
+                messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
+            }
+        }
+
         chatboxSendButton.isEnabled = false
         chatboxSendButton.setOnClickListener {
             if (chatboxText.text.isBlank() || chatboxText.text.length > 100) return@setOnClickListener
@@ -95,19 +106,6 @@ class MainActivity : AppCompatActivity() {
         chatboxText.requestFocus()
 
         asyncExec {
-            runOnUiThread {
-                messageAdapter = MessageListAdapter(applicationContext, messageList)
-
-                messageRecycler.layoutManager = LinearLayoutManager(this)
-                messageRecycler.adapter = messageAdapter
-
-                messageRecycler.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
-                    if (bottom < oldBottom) {
-                        messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
-                    }
-                }
-            }
-
             db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "chat").build()
             prefs = getSharedPreferences("chathive", Context.MODE_PRIVATE)
 
