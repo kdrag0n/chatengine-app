@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:orientation="horizontal"
-        android:elevation="24dp"
+        android:elevation="16dp"
         android:background="@color/background">
 
         <EditText
