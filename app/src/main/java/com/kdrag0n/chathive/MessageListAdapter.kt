@@ -12,8 +12,6 @@ import com.kdragon.android.chatengine.R
 
 class MessageListAdapter(private val context: Context, private val messages: List<Message>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var lastPosition = -1
-
     override fun getItemCount() = messages.size
     override fun getItemViewType(position: Int) = messages[position].sender.ordinal
 
@@ -44,22 +42,19 @@ class MessageListAdapter(private val context: Context, private val messages: Lis
         }
 
         if (!message.hasAnimated) {
-            animate(holder.itemView, holder, position)
+            animate(holder.itemView, holder)
         }
     }
 
-    private fun animate(view: View, holder: RecyclerView.ViewHolder, position: Int) {
-        if (position > lastPosition) {
-            val animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
+    private fun animate(view: View, holder: RecyclerView.ViewHolder) {
+        val animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
 
-            view.startAnimation(animation)
-            lastPosition = position
+        view.startAnimation(animation)
 
-            when (holder) {
-                is ReceivedMessageHolder -> holder.message.hasAnimated = true
-                is SentMessageHolder -> holder.message.hasAnimated = true
-                is InternalMessageHolder -> holder.message.hasAnimated = true
-            }
+        when (holder) {
+            is ReceivedMessageHolder -> holder.message.hasAnimated = true
+            is SentMessageHolder -> holder.message.hasAnimated = true
+            is InternalMessageHolder -> holder.message.hasAnimated = true
         }
     }
 }
