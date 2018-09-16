@@ -18,7 +18,6 @@ import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import com.kdrag0n.chathive.database.AppDatabase
 import com.kdrag0n.chathive.models.Message
-import com.kdrag0n.chathive.models.MessageList
 import com.kdrag0n.chathive.models.MessageSender
 import com.kdrag0n.utils.asyncExec
 import com.kdrag0n.utils.random
@@ -331,7 +330,6 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
 
         outState?.putString("session", sessionID)
-        outState?.putSerializable("messages", MessageList(messageList))
     }
 
     override fun onRestoreInstanceState(savedState: Bundle?) {
@@ -339,10 +337,14 @@ class MainActivity : AppCompatActivity() {
 
         sessionID = savedState?.getString("session") ?: genSessionID()
 
-        val serializedList = savedState?.getSerializable("messages") as MessageList?
-        messageList.addAll(serializedList?.messages ?: listOf())
-        messageAdapter.notifyDataSetChanged()
-        messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
+        asyncExec {
+            readDbHistory()
+
+            runOnUiThread {
+                messageAdapter.notifyDataSetChanged()
+                messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
+            }
+        }
     }
 
     companion object {
