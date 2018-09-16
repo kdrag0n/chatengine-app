@@ -229,7 +229,7 @@ class MainActivity : AppCompatActivity() {
                 val end = messageList.size - 1
                 if (end > posWritten) {
                     db.messageDao().insertMessages(messageList.slice(posWritten..end))
-                    posWritten = end
+                    posWritten = end + 1
                 }
             }
         }
