@@ -220,10 +220,16 @@ class MainActivity : AppCompatActivity() {
     private fun dbWriter(): Thread {
         return thread(isDaemon = true) {
             var posWritten = messageList.size - 1
+            var loop = true
 
-            while (true) {
-                synchronized(dbWriterLock) {
-                    dbWriterLock.wait()
+            while (loop) {
+                try {
+                    synchronized(dbWriterLock) {
+                        dbWriterLock.wait()
+                    }
+                } catch (_: InterruptedException) {
+                    // do our last write, then exit
+                    loop = false
                 }
 
                 val end = messageList.size - 1
