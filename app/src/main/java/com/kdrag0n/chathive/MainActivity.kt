@@ -1,9 +1,11 @@
 package com.kdrag0n.chathive
 
 import android.arch.persistence.room.Room
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -181,7 +183,8 @@ class MainActivity : AppCompatActivity() {
 
                 show()
             }
-            R.id.aboutOpt -> startActivity(Intent(this, AboutActivity::class.java))
+            R.id.aboutOpt -> showAboutActivity()
+            R.id.contactOpt -> contactDev()
             R.id.historyOpt -> {
                 item.isChecked = !item.isChecked
 
@@ -249,6 +252,35 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    internal fun contactDev(extra: String = "", ctx: Context = this) {
+        val addr = getString(R.string.contact_mail).replace(" (at) ", "@")
+
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("mailto:$addr$extra")))
+        } catch (e: ActivityNotFoundException) {
+            errorDialog(getString(R.string.error_mailto_handler, addr), ctx = ctx)
+        }
+    }
+
+    private fun errorDialog(message: String, ctx: Context = this) {
+        runOnUiThread {
+            with (android.app.AlertDialog.Builder(ctx, R.style.DialogTheme)) {
+                setTitle(R.string.error_generic)
+                setMessage(message)
+                setPositiveButton(android.R.string.ok) { _, _ -> }
+                setCancelable(false)
+                show()
+            }
+        }
+    }
+
+    private fun showAboutActivity() {
+        AboutActivity.mainParent = this
+
+        val intent = Intent(this, AboutActivity::class.java)
+        startActivity(intent)
     }
 
     private fun sendMessage(msg: String) {

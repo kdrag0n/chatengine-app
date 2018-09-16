@@ -11,6 +11,7 @@
     <string name="about">About</string>
     <string name="clear_history">Clear history</string>
     <string name="keep_history">Keep history</string>
+    <string name="contact">Contact</string>
 
     <!-- Messages -->
     <string name="message">Message</string>
@@ -19,6 +20,8 @@
     <string name="error_response">Error getting reply: invalid data received</string>
     <string name="error_api">Error getting reply: %s</string>
     <string name="error_internet">Failed to send message</string>
+    <string name="error_generic">Oops…</string>
+    <string name="error_mailto_handler">You don\'t have an email app. Please email this address for help: %s</string>
     <string name="server_error">Server error</string>
     <string name="too_long">Message too long</string>
     <string name="too_fast">Slow down</string>

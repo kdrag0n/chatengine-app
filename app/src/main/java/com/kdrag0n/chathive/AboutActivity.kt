@@ -39,11 +39,15 @@ class AboutActivity : AppCompatActivity() {
 
         about_email.removeSummary()
         about_email.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + R.string.contact_mail.string().replace(" (at) ", "@"))))
+            mainParent.contactDev(ctx = this)
         }
     }
 
     private fun Int.string(vararg fmt: Any): String {
         return resources.getString(this, *fmt)
+    }
+
+    companion object {
+        lateinit var mainParent: MainActivity
     }
 }
