@@ -4,7 +4,6 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -31,6 +30,7 @@ import okhttp3.RequestBody
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
+import kotlin.concurrent.thread
 import kotlinx.android.synthetic.main.message_received.text_message_body as receivedMessageText
 import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
 
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var messageAdapter: MessageListAdapter
     private lateinit var db: AppDatabase
     private lateinit var prefs: SharedPreferences
-    private var dbWriterTask: AsyncTask<Unit, Unit, Unit>? = null
+    private var dbWriterTask: Thread? = null
     private val httpClient by lazy {
         OkHttpClient.Builder().build()
     }
@@ -210,13 +210,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun stopWriter() {
-        if (dbWriterTask != null && !dbWriterTask!!.isCancelled) {
-            dbWriterTask!!.cancel(true)
+        if (dbWriterTask != null && dbWriterTask!!.isAlive) {
+            dbWriterTask!!.interrupt()
         }
+
+        dbWriterTask = null
     }
 
-    private fun dbWriter(): AsyncTask<Unit, Unit, Unit> {
-        return asyncExec {
+    private fun dbWriter(): Thread {
+        return thread(isDaemon = true) {
             var posWritten = messageList.size - 1
 
             while (true) {
