@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var db: AppDatabase
     private lateinit var prefs: SharedPreferences
     private var recyclerAtBottom = true
+    private var dbPosWritten = 0
     private var dbWriterTask: Thread? = null
     private val httpClient by lazy {
         OkHttpClient.Builder().build()
@@ -173,6 +174,7 @@ class MainActivity : AppCompatActivity() {
                 setNegativeButton(android.R.string.no) { _, _ -> }
                 setPositiveButton(android.R.string.yes) { _, _ ->
                     messageList.clear()
+                    dbPosWritten = 0
                     clearDbHistory()
                     messageList.new(MessageSender.BOT, greetings.random())
                 }
@@ -228,7 +230,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun dbWriter(): Thread {
         return thread(isDaemon = true) {
-            var posWritten = messageList.size - 1
             var loop = true
 
             while (loop) {
@@ -242,9 +243,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 val end = messageList.size - 1
-                if (end > posWritten) {
-                    db.messageDao().insertMessages(messageList.slice(posWritten..end))
-                    posWritten = end + 1
+                if (end > dbPosWritten) {
+                    db.messageDao().insertMessages(messageList.slice(dbPosWritten..end))
+                    dbPosWritten = end + 1
                 }
             }
         }
