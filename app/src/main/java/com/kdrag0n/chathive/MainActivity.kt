@@ -147,6 +147,11 @@ class MainActivity : AppCompatActivity() {
         stopWriter()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        stopWriter() // if sometimes onPause doesn't get called...?
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.actions, menu ?: return true)
         return true
