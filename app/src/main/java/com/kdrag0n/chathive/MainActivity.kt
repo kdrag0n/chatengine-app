@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var messageAdapter: MessageListAdapter
     private lateinit var db: AppDatabase
     private lateinit var prefs: SharedPreferences
+    private var recyclerAtBottom = true
     private var dbWriterTask: Thread? = null
     private val httpClient by lazy {
         OkHttpClient.Builder().build()
@@ -59,10 +61,15 @@ class MainActivity : AppCompatActivity() {
         messageRecycler.adapter = messageAdapter
 
         messageRecycler.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
-            if (bottom < oldBottom) {
+            if (recyclerAtBottom) {
                 messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
             }
         }
+        messageRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                recyclerAtBottom = !recyclerView.canScrollVertically(1)
+            }
+        })
 
         chatboxSendButton.isEnabled = false
         chatboxSendButton.setOnClickListener {
@@ -309,7 +316,9 @@ class MainActivity : AppCompatActivity() {
 
         runOnUiThread {
             messageAdapter.notifyDataSetChanged()
-            messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
+            if (recyclerAtBottom) {
+                messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
+            }
         }
 
         // save history
