@@ -36,7 +36,7 @@ import kotlinx.android.synthetic.main.message_received.text_message_body as rece
 import kotlinx.android.synthetic.main.message_sent.text_message_body as sentMessageText
 
 class MainActivity : AppCompatActivity() {
-    private val messageList = mutableListOf<Message>()
+    private val messageList = LinkedList<Message>()
     private val dbWriterLock = java.lang.Object()
     private lateinit var messageAdapter: MessageListAdapter
     private lateinit var db: AppDatabase
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         messageRecycler.layoutManager = LinearLayoutManager(this)
         messageRecycler.adapter = messageAdapter
 
-        messageRecycler.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+        messageRecycler.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             if (recyclerAtBottom) {
                 messageRecycler.scrollToPosition(messageAdapter.itemCount - 1)
             }
@@ -118,9 +118,6 @@ class MainActivity : AppCompatActivity() {
 
             if (prefs.getBoolean("saveHistory", true)) {
                 readDbHistory()
-                if (messageList.size > 0) {
-                    messageList[messageList.size - 1].hasAnimated = true // prevent animation of last message
-                }
 
                 runOnUiThread {
                     messageAdapter.notifyDataSetChanged()
@@ -202,7 +199,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun readDbHistory() {
-        messageList.addAll(db.messageDao().loadAllMessages())
+        for (message in db.messageDao().loadAllMessages()) {
+            message.hasAnimated = true
+            messageList.add(message)
+        }
     }
 
     private fun clearDbHistory() {
@@ -311,7 +311,7 @@ class MainActivity : AppCompatActivity() {
         return this
     }
 
-    private fun MutableList<Message>.new(sender: MessageSender, message: String, time: Date = Date()) {
+    private fun LinkedList<Message>.new(sender: MessageSender, message: String, time: Date = Date()) {
         add(Message(sender = sender, text = message, createdAt = time))
 
         runOnUiThread {
