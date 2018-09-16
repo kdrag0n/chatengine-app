@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:clipToPadding="false"
     tools:context="com.kdrag0n.chathive.MainActivity">
 
     <include
@@ -28,7 +29,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:elevation="24dp"
+        android:background="@color/background">
 
         <EditText
             android:id="@+id/chatboxText"
