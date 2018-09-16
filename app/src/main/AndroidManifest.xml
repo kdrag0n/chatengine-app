@@ -39,6 +39,12 @@
             android:launchMode="singleTop"
             android:theme="@style/AppTheme"
             android:label="@string/about"/>
+
+        <activity android:name="com.kdrag0n.chathive.LicenseActivity"
+            android:parentActivityName="com.kdrag0n.chathive.AboutActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme"
+            android:label="@string/licenses"/>
     </application>
 
 </manifest>

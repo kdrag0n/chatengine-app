@@ -31,6 +31,12 @@ class AboutActivity : AppCompatActivity() {
             }
         }
 
+        about_oss.removeSummary()
+        about_oss.setOnClickListener {
+            val intent = Intent(this, LicenseActivity::class.java)
+            startActivity(intent)
+        }
+
         about_author.summary = R.string.author_nick.string()
         about_author.uri = R.string.website_uri
 

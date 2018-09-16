@@ -5,6 +5,7 @@
     <string name="telegram">Telegram</string>
     <string name="email">Email</string>
     <string name="version">Version</string>
+    <string name="licenses">Licenses</string>
 
     <!-- Actions -->
     <string name="send">Send</string>
@@ -12,6 +13,7 @@
     <string name="clear_history">Clear history</string>
     <string name="keep_history">Keep history</string>
     <string name="contact">Contact</string>
+    <string name="oss_licenses">Open-source licenses</string>
 
     <!-- Messages -->
     <string name="message">Message</string>
@@ -37,4 +39,9 @@
     <string name="telegram_uri">https://t.me/kdrag0n</string>
     <string name="website_uri">https://khronodragon.com/</string>
     <string name="contact_mail">kdrag0n (at) pm.me</string>
+
+    <!-- Projects -->
+    <string name="proj_room">Room Persistence Library</string>
+    <string name="proj_about">AboutCardRow</string>
+    <string name="proj_okhttp">Okhttp3</string>
 </resources>
